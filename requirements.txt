@@ -1,4 +1,5 @@
 # pip # ensure we use the latest pip = we should update the BASE pip - not the virtual env one!
+
 Django==1.10 # note that i was developing in 1.6 and now 1.7 is released which doesn't use south and broke things!
 boto
 Pillow
