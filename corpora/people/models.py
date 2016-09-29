@@ -14,20 +14,20 @@ class Tribe(models.Model):
 
 
 class Demographic(models.Model):
-	SEX_CHOICES = [
-		('M', 'Male'),
-		('F', 'Female')
-	]
+    SEX_CHOICES = [
+        ('M', 'Male'),
+        ('F', 'Female')
+    ]
 
-	age = models.IntegerField(help_text='Age')
-	sex = models.ChoiceField(help_text='Gender', choices=SEX_CHOICES)
-	# tribe
-	# ethnicities
+    age = models.IntegerField(help_text='Age')
+    sex = models.ChoiceField(help_text='Gender', choices=SEX_CHOICES)
+    # tribe
+    # ethnicities
 
 
 class Person(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-	full_name = models.CharField(help_text='Full Name', max_length=200)
+    full_name = models.CharField(help_text='Full Name', max_length=200)
     demographic = models.OneToOneField(Demographic, on_delete=models.CASCADE, null=True)
     # languages
 
