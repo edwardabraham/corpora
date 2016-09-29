@@ -14,13 +14,13 @@ class Tribe(models.Model):
 
 
 class Demographic(models.Model):
-    SEX_CHOICES = [
+    SEX_CHOICES = (
         ('M', 'Male'),
         ('F', 'Female')
-    ]
+    )
 
     age = models.IntegerField(help_text='Age')
-    sex = models.ChoiceField(help_text='Gender', choices=SEX_CHOICES)
+    sex = models.CharField(help_text='Gender', choices=SEX_CHOICES, max_length=1)
     # tribe
     # ethnicities
 
