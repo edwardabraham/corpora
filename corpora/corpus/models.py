@@ -7,6 +7,7 @@ class Sentence(models.Model):
 	# language
 
 class Recording(models.Model):
-    person = models.ForeignKey('website.Person')
-    sentence = models.ForeignKey(Sentence)
+    person = models.ForeignKey('people.Person')
+    sentence = models.ForeignKey('Sentence')
     audio_file = models.FileField()
+    

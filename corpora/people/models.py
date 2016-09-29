@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+from django.contrib.auth.models import User
 
 class Tribe(models.Model):
     name = models.CharField(help_text='Name',max_length=200)
@@ -24,9 +25,8 @@ class Demographic(models.Model):
 
 
 class Person(models.Model):
-	first_name = models.CharField(help_text='First Name', max_length=200)
-    last_name = models.CharField(help_text='Last Name', max_length=200)
-    email = models.EmailField(help_text='Email', max_length=200, unique=True, null=True, default=None, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+	full_name = models.CharField(help_text='Full Name', max_length=200)
     demographic = models.OneToOneField(Demographic, on_delete=models.CASCADE, null=True)
     # languages
 
