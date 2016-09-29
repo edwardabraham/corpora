@@ -175,7 +175,7 @@ MEDIA_ROOT = os.environ['MEDIA_PATH']
 
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'kuaka', "static"),
+    os.path.join(BASE_DIR, os.environ['PROJECT_NAME'], "static"),
 )
 
 STATICFILES_FINDERS = (
