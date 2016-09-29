@@ -173,15 +173,13 @@ STATIC_ROOT = os.environ['STATIC_PATH'] #os.path.join(BASE_DIR, 'public', 'stati
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.environ['MEDIA_PATH']
 
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, os.environ['PROJECT_NAME'], "static"),
-)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, "static"),
+# )
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
-
     'compressor.finders.CompressorFinder',
 )   
 
