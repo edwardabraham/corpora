@@ -21,10 +21,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'dj*iy+y057219hv^rf8#l61*bc00w_2=#_zpv&qct43!4_c=#&'
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = eval(os.environ['DJANGO_ISNOT_PRODUCTION'])
 
 ALLOWED_HOSTS = []
 
@@ -39,6 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+
+    'corpus',
+    'people',
+
+    'storages',
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -79,16 +85,28 @@ TEMPLATES = [
 WSGI_APPLICATION = 'corpora.wsgi.application'
 
 
+# STORAGES #
+DEFAULT_FILE_STORAGE =      os.environ['FILE_STORAGE']
+AWS_ACCESS_KEY_ID =         os.environ['AWS_ID']
+AWS_SECRET_ACCESS_KEY =     os.environ['AWS_SECRET']
+AWS_STORAGE_BUCKET_NAME =   os.environ['AWS_BUCKET']
+AWS_QUERYSTRING_AUTH = False
+
+
+
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
+# We use ansible to create the environment variables to use.
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ['DATABASE_NAME'], # TODO: Give this a better name?
+        'USER': os.environ['DATABASE_USER'],
+        'PASSWORD': os.environ['DATABASE_PASSWORD'], # TODO: Secure this!
+        'HOST': os.environ['DATABASE_HOST'],           
+        'PORT': '5432',
+        }
     }
-}
-
 
 # All auth
 AUTHENTICATION_BACKENDS = (
@@ -119,6 +137,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Site ID
+SITE_ID = 1
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
@@ -148,3 +169,26 @@ LOCALE_PATHS = (
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.environ['STATIC_PATH'] #os.path.join(BASE_DIR, 'public', 'static')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.environ['MEDIA_PATH']
+
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'kuaka', "static"),
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+
+    'compressor.finders.CompressorFinder',
+)   
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
+        'LOCATION': '%s:%s'%(os.environ['DJANGO_MEMCACHED_IP'], os.environ['DJANGO_MEMCACHED_PORT']),
+        'TIMEOUT': 300,
+    }
+}
