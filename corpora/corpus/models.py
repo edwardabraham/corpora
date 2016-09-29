@@ -1,3 +1,4 @@
+# -*- coding: utf8 -*-
 from __future__ import unicode_literals
 
 from django.db import models
@@ -10,4 +11,3 @@ class Recording(models.Model):
     person = models.ForeignKey('people.Person')
     sentence = models.ForeignKey('Sentence')
     audio_file = models.FileField()
-    
