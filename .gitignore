@@ -87,3 +87,9 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# OSX DS_Store
+.DS_Store
+
+# Bower Components
+bower_components/

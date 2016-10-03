@@ -40,10 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    'corpora',
     'corpus',
     'people',
 
     'storages',
+    'djangobower',
 
     'allauth',
     'allauth.account',
@@ -173,14 +175,22 @@ STATIC_ROOT = os.environ['STATIC_PATH'] #os.path.join(BASE_DIR, 'public', 'stati
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.environ['MEDIA_PATH']
 
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'corpora/static')
+
+BOWER_INSTALLED_APPS = {
+    'jquery',
+    'bootstrap'
+}
+
 # STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, "static"),
+#     os.path.join(BASE_DIR, '...', 'static'),
 # )
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'compressor.finders.CompressorFinder',
+    'djangobower.finders.BowerFinder',
 )   
 
 CACHES = {

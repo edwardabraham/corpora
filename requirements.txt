@@ -1,6 +1,6 @@
 # pip # ensure we use the latest pip = we should update the BASE pip - not the virtual env one!
 
-Django==1.10 # note that i was developing in 1.6 and now 1.7 is released which doesn't use south and broke things!
+Django==1.10
 boto
 Pillow
 celery
@@ -13,6 +13,7 @@ psycopg2
 pycrypto
 pytz
 django-storages
+django-bower
 
 # changing social auth app
 # certifi==2015.04.28
