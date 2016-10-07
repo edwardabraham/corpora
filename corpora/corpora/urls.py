@@ -1,4 +1,4 @@
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 """corpora URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -15,17 +15,33 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
+#from django.conf.urls.i18n import i18n_patterns
+from django.utils.translation import ugettext_lazy as _
+
 from django.contrib import admin
 
 from corpora import views
+from people import views as people_views
+
 
 urlpatterns = [
+
 	url(r'^', include('corpus.urls',namespace='corpus')),
+
+    url(r'^i18n/', include('django.conf.urls.i18n')),
+
 
     url(r'^admin/', admin.site.urls),
 	url(r'^accounts/', include('allauth.urls')),
 
-	url(r'^$', views.home, name='home'),
 
+	url(r'^$', views.home, name='home'),
+    url( _(r'^people/'), include('people.urls', namespace='people')),
 	# url(r'^$', cache_on_auth(settings.SHORT_CACHE)(views.home), name='home'),
 ]
+
+
+# I think it's better we store language preference in cookie and not do url redirects
+# urlpatterns += i18n_patterns(
+#     url( _(r'^people/'), include('people.urls', namespace='people')),
+# )

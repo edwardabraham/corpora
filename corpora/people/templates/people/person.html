@@ -1,0 +1,17 @@
+{% extends 'corpora/base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>{% trans "Welcome to People!"%}</h1>
+        <p>{% blocktrans %}This is a long welcome message.{% endblocktrans %}</p>
+        <h1>language: {{language}} </h1>
+      </div>
+    </div>
+</div>
+
+{% endblock %}

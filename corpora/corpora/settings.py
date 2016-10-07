@@ -1,4 +1,4 @@
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 """
 Django settings for corpora project.
 
@@ -57,8 +57,10 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    #'django.middleware.cache.UpdateCacheMiddleware', # <= for caching entire site
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
+    #'django.middleware.cache.FetchFromCacheMiddleware', # <= for caching entire site
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -146,7 +148,7 @@ SITE_ID = 1
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 
 TIME_ZONE = 'UTC'
 
@@ -156,16 +158,34 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+# Add support for IMPORTANT!!!!! languages
+import django.conf.locale
+EXTRA_LANG_INFO = {
+    'mi': {
+        'bidi': False, # right-to-left
+        'code': 'mi',
+        'name': 'Maori',
+        'name_local': u'Māori',
+    },
+}
+LANG_INFO = dict(django.conf.locale.LANG_INFO.items() + EXTRA_LANG_INFO.items())
+ 
+# update the language info
+django.conf.locale.LANG_INFO = LANG_INFO
+
 from django.utils.translation import ugettext_lazy as _
 LANGUAGES = (
-    ('en', _('English')),
+    ('en',    _('English')),
     ('en-nz', _('New Zealand English')),
-    ('mi', _('Māori')),
+    ('mi',    _('Maori'))
 )
+# LANGUAGE_COOKIE_NAME='corpora-language'
 
-LOCALE_PATHS = (
-    os.path.join(BASE_DIR, 'locale'),
-)
+# LOCALE_PATHS = (
+# We're making a local directory in each app and the project-app folder
+#     os.path.join(BASE_DIR, 'locale'),
+# )
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
@@ -200,3 +220,8 @@ CACHES = {
         'TIMEOUT': 300,
     }
 }
+
+# These may be required if caching the entire site.
+# CACHE_MIDDLEWARE_ALIAS 
+# CACHE_MIDDLEWARE_SECONDS
+# CACHE_MIDDLEWARE_KEY_PREFIX
