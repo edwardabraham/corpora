@@ -19,16 +19,16 @@ msgstr ""
 
 #: corpora/settings.py:163
 msgid "English"
-msgstr ""
+msgstr "English"
 
 #: corpora/settings.py:164
 msgid "New Zealand English"
-msgstr ""
+msgstr "New Zealand English"
 
 #: corpora/settings.py:165
 msgid "Māori"
-msgstr ""
+msgstr "Māori"
 
 #: corpora/urls.py:41
 msgid "^people/"
-msgstr ""
+msgstr "^people/"

@@ -19,7 +19,7 @@ msgstr ""
 
 #: people/templates/people/person.html:10
 msgid "Welcome to People!"
-msgstr "Kia ora People!"
+msgstr "G'day People!"
 
 #: people/templates/people/person.html:11
 msgid "This is a long welcome message."

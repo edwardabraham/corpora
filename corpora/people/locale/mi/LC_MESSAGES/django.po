@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-04 04:11+0000\n"
+"POT-Creation-Date: 2016-10-07 02:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,8 +19,8 @@ msgstr ""
 
 #: people/templates/people/person.html:10
 msgid "Welcome to People!"
-msgstr ""
+msgstr "Haere Mai!"
 
 #: people/templates/people/person.html:11
 msgid "This is a long welcome message."
-msgstr ""
+msgstr "He kupu roa tēnei."

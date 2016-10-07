@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-04 04:11+0000\n"
+"POT-Creation-Date: 2016-10-07 02:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,16 +19,16 @@ msgstr ""
 
 #: corpora/settings.py:179
 msgid "English"
-msgstr ""
+msgstr "Te Reo Pākeha"
 
 #: corpora/settings.py:180
 msgid "New Zealand English"
-msgstr ""
+msgstr "Te Reo Pākeha mō Aoteroa"
 
 #: corpora/settings.py:181
 msgid "Maori"
-msgstr ""
+msgstr "Māori"
 
 #: corpora/urls.py:39
 msgid "^people/"
-msgstr ""
+msgstr "^tāngata/"
