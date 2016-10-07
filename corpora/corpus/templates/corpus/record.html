@@ -33,5 +33,12 @@
 			</div>
 		</a>
 	</div>
+	
+	<audio class="play-audio" style="display: none; width: 0px; height: 0px">
+	</audio>
 
+
+	{% addtoblock "js" %}
+		<script type="text/javascript" src="{% static 'corpus/js/record.js' %}"></script>
+	{% endaddtoblock %}
 {% endblock %}
