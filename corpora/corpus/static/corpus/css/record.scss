@@ -1,0 +1,40 @@
+@import 'corpora/static/corpora/css/colors';
+
+.circle {
+	border-radius: 50%;
+}
+
+.background-circle {
+	width: 110px;
+	height: 110px;
+	background: $dark;
+	position: relative;
+}
+
+.foreground-circle {
+	background: $default;
+	position: absolute;
+	right: 12px;
+	left: 12px;
+	top: 12px;
+	bottom: 12px;
+}
+
+.unclicked-circle {
+	box-shadow: 0 0 10px black;
+}
+
+.clicked-circle {
+	box-shadow: inset 0 0 20px black;
+}
+
+.circle-text {
+	color: $darker;
+	font-size: 30px;
+
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 100%;
+	text-align: center;
+}

@@ -1,4 +1,37 @@
 {% extends 'corpora/base.html' %}
 
+{% load static %}
+{% load sekizai_tags %}
+{% load compress %}
+{% load sass_tags %}
+
+
 {% block content %}
+	{% addtoblock "css" %}
+		<link href="{% sass_src 'corpus/css/record.scss' %}" rel="stylesheet" type="text/css" />
+	{% endaddtoblock %}
+
+
+	<h2>Record this sentence:</h2>
+
+	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+	<div class="circle background-circle">
+		<a href="javascript:void(0)" class="record-button">
+			<div class="circle foreground-circle unclicked-circle record">
+				<div class="circle-text">REC</div>
+			</div>
+		</a>
+	</div>
+
+	Playback recording:
+
+	<div class="circle background-circle">
+		<a href="javascript:void(0)" class="play-button">
+			<div class="circle foreground-circle unclicked-circle play">
+				<div class="circle-text">PLAY</div>
+			</div>
+		</a>
+	</div>
+
 {% endblock %}
