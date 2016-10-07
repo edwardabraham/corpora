@@ -47,6 +47,10 @@ INSTALLED_APPS = [
     'storages',
     'djangobower',
 
+    'sekizai',
+    'compressor',
+    'sass_processor',
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -79,6 +83,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.i18n',
+                'sekizai.context_processors.sekizai',
             ],
         },
     },
@@ -189,9 +194,12 @@ BOWER_INSTALLED_APPS = {
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
+
+    # Additional finders
     'compressor.finders.CompressorFinder',
+    'sass_processor.finders.CssFinder',
     'djangobower.finders.BowerFinder',
-)   
+)
 
 CACHES = {
     'default': {
