@@ -59,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     #'django.middleware.cache.UpdateCacheMiddleware', # <= for caching entire site
     'django.middleware.locale.LocaleMiddleware',
+    'corpora.middleware.LanguageMiddleware',
     'django.middleware.common.CommonMiddleware',
     #'django.middleware.cache.FetchFromCacheMiddleware', # <= for caching entire site
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -148,7 +149,7 @@ SITE_ID = 1
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'en-nz'
 
 TIME_ZONE = 'UTC'
 
@@ -168,6 +169,12 @@ EXTRA_LANG_INFO = {
         'name': 'Maori',
         'name_local': u'Māori',
     },
+    'en_NZ': {
+        'bidi': False, # right-to-left
+        'code': 'en_NZ',
+        'name': 'New Zealand English',
+        'name_local': u'New Zealand English',
+    },
 }
 LANG_INFO = dict(django.conf.locale.LANG_INFO.items() + EXTRA_LANG_INFO.items())
  
@@ -177,7 +184,7 @@ django.conf.locale.LANG_INFO = LANG_INFO
 from django.utils.translation import ugettext_lazy as _
 LANGUAGES = (
     ('en',    _('English')),
-    ('en-nz', _('New Zealand English')),
+    ('en_NZ', _('New Zealand English')),
     ('mi',    _('Maori'))
 )
 # LANGUAGE_COOKIE_NAME='corpora-language'

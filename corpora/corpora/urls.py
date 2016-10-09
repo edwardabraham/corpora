@@ -45,3 +45,4 @@ urlpatterns = [
 # urlpatterns += i18n_patterns(
 #     url( _(r'^people/'), include('people.urls', namespace='people')),
 # )
+#prefix_default_language=True
