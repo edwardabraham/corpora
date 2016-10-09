@@ -1,0 +1,32 @@
+@import 'colors';
+@import 'https://fonts.googleapis.com/css?family=Comfortaa:400,700|Poiret+One&subset=latin-ext';
+
+$header-font: 'Poiret One', cursive;
+$body-font: 'Comfortaa', cursive;
+
+h1 {
+	color: $lighter;
+	font-family: $header-font;
+	font-size: 48px;
+	margin-left: -2px;
+}
+
+h2 {
+	color: $lighter;
+	font-family: $header-font;
+	font-size: 24px;
+	margin-left: -1px;
+}
+
+h3 {
+	color: $dark;
+	font-family: $body-font;
+	font-size: 18px;
+	margin: 10px 0px 20px 0px;
+}
+
+body {
+	color: $default;
+	font-family: $body-font;
+	font-size: 20px;
+}

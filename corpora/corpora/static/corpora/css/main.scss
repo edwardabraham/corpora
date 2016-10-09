@@ -1,0 +1,10 @@
+@import 'colors';
+
+body {
+	background-color: $darker;
+}
+
+.banner {
+	background-color: $default;
+    box-shadow: 0px 2px 10px black;
+}
