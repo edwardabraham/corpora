@@ -8,3 +8,10 @@ body {
 	background-color: $default;
     box-shadow: 0px 2px 10px black;
 }
+
+.button {
+	background-color: $dark;
+	color: $lighter;
+	text-align: center;
+
+}
