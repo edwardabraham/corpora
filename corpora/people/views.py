@@ -7,6 +7,8 @@ from django.utils.translation import ugettext as _
 
 import logging
 logger = logging.getLogger('corpora')
+# sudo cat /webapp/logs/django.log
+
 
 # Create your views here.
 
