@@ -5,12 +5,17 @@ from django.utils import translation
 from django.conf import settings
 from django.utils.translation import ugettext as _
 
+import logging
+logger = logging.getLogger('corpora')
+
 # Create your views here.
 
 def person(request, uuid):
     # from django.utils.translation import activate
     # activate('mi')
     lang = request.COOKIES[settings.LANGUAGE_COOKIE_NAME]
+
+    logger.debug('Language Cookie Is: {0}'.format(lang))
 
     output = _('Today is %(month)s %(day)s.') % {'month': 10, 'day': 10}
 
