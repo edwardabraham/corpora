@@ -9,6 +9,7 @@ h1 {
 	font-family: $header-font;
 	font-size: 48px;
 	margin-left: -2px;
+	text-decoration: none;
 }
 
 h2 {
@@ -16,6 +17,7 @@ h2 {
 	font-family: $header-font;
 	font-size: 24px;
 	margin-left: -1px;
+	text-decoration: none;
 }
 
 h3 {
@@ -23,10 +25,12 @@ h3 {
 	font-family: $body-font;
 	font-size: 18px;
 	margin: 10px 0px 20px 0px;
+	text-decoration: none;
 }
 
 body {
 	color: $default;
 	font-family: $body-font;
 	font-size: 20px;
+	text-decoration: none;
 }

@@ -33,22 +33,38 @@
 			</div>
 		</a>
 	</div>
+
+	{% comment %}
 	<small> Does this recording sound accurate? If so, press Next. If not, go back and fix it with Back.</small>
 
-	<br>Submit recording when complete:
+	<a href="{% url 'corpus:submit_recording' %}">
+		<div class="button submit-audio">
+			Submit
+		</div>
+	</a>
+	{% endcomment %}
 
-	<div class="button submit-audio">
-		Submit
-	</div>
+	<br>
 
+	<a href="javascript:void(0)" id="approve">
+		<div class="button">
+			Approve recording
+		</div>
+	</a>
 
-
+	<br>
 	
 	<audio class="play-audio" style="display: none; width: 0px; height: 0px">
 	</audio>
 
-
 	{% addtoblock "js" %}
-		<script type="text/javascript" src="{% static 'corpus/js/record.js' %}"></script>
+		<script>
+			var person_pk = "{{person.pk}}";
+			var sentence_pk = "{{sentence.pk}}";
+		</script>
+
+		<script type="text/javascript" src='{% static 'corpus/js/ajax.post.js' %}'></script>
+		<script type="text/javascript" src='{% static 'corpus/js/record.js' %}'></script>
+
 	{% endaddtoblock %}
 {% endblock %}

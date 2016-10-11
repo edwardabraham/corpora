@@ -5,6 +5,9 @@ navigator.getUserMedia = navigator.getUserMedia ||
 var record = document.querySelector('.record-button');
 var play = document.querySelector('.play-button');
 var audio = document.querySelector('.play-audio');
+var approve = document.getElementById('approve');
+
+var audioBlob;
 
 if (navigator.getUserMedia) {
 	// Load getUserMedia API
@@ -16,8 +19,6 @@ if (navigator.getUserMedia) {
 
 		// Success callback
 		function (stream) {
-			console.log("getUserMedia success");
-
 			// Initilize 
 			var mediaRecorder = new MediaRecorder(stream);
 			
@@ -41,17 +42,48 @@ if (navigator.getUserMedia) {
 				chunks.push(e.data);
 			}
 
+			// Generate audio file & url upon recording stopped
 			mediaRecorder.onstop = function(e) {
-				console.log("recorder onstop");
+				// Save audio chunks to Javascript Audio Blob
+				audioBlob = new Blob(chunks, {'type' : 'audio/wav'});
 
-				var blob = new Blob(chunks, {'type' : 'audio/wav'});
+				// Flush the stored data
 				chunks = [];
-				var audioURL = window.URL.createObjectURL(blob);
+
+				// Generate audio file URL for playback
+				var audioURL = window.URL.createObjectURL(audioBlob);
 				audio.src = audioURL;
 			}
 
+			// If play button clicked, play audio
 			play.onclick = function(){
 				audio.play();
+			}
+
+			// If "approve audio" button clicked, create formdata to save recording model
+			approve.onclick = function(){
+				// Initialize FormData
+				var fd = new FormData();
+				// Set enctype to multipart; necessary for audio form data
+				fd.enctype="multipart/form-data";
+
+				// Add audio blob as blob.wav to form data
+				fd.append('audio_file', audioBlob, "blob.wav");
+
+				// Append necessary person and sentence pks to form data to add to recording model
+				fd.append('person', person_pk);
+				fd.append('sentence', sentence_pk);
+
+				// Send ajax POST request back to corpus/views.py
+				$.ajax({
+					type: 'POST',
+					url: '/',
+					data: fd,
+					processData: false,
+					contentType: false
+				}).done(function(data) {
+					console.log("Recording data submitted and saved");
+				})
 			}
 		},
 
