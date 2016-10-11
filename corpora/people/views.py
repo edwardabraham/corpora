@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.utils import translation
 from django.conf import settings
+from django.utils.translation import ugettext as _
+
 # Create your views here.
 
 def person(request, uuid):
@@ -10,7 +12,9 @@ def person(request, uuid):
     # activate('mi')
     lang = request.COOKIES[settings.LANGUAGE_COOKIE_NAME]
 
-    return render(request, 'people/person.html', {'language':lang, 'test':'test'})
+    output = _('Today is %(month)s %(day)s.') % {'month': 10, 'day': 10}
+
+    return render(request, 'people/person.html', {'language':lang, 'output':output})
 
 
 def choose_language(request):

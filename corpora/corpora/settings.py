@@ -154,7 +154,7 @@ SITE_ID = 1
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-nz'
+LANGUAGE_CODE = 'en_NZ'
 
 TIME_ZONE = 'UTC'
 
@@ -240,3 +240,71 @@ CACHES = {
 # CACHE_MIDDLEWARE_ALIAS 
 # CACHE_MIDDLEWARE_SECONDS
 # CACHE_MIDDLEWARE_KEY_PREFIX
+
+
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(asctime)s -- %(message)s'
+        }
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,
+            'formatter': 'verbose',
+        },
+        'testconsole': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'stream': sys.stdout,
+            'formatter': 'verbose',
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': '../../logs/django.log',
+            'formatter': 'verbose',
+            'maxBytes': 1024 * 1024 * 10,  # 10 mb                        
+        },      
+        'celery': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': '../../logs/celery.log',
+            'formatter': 'simple',
+            'maxBytes': 1024 * 1024 * 10,  # 10 mb            
+        }
+    },
+    'loggers': {
+        'django.test':{
+            'handlers': ['testconsole'],
+            'level': 'DEBUG',
+            'propogate': True        
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'corpora': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propogate': True
+        },
+        'celery': {
+            'handlers': ['celery', 'console'],
+            'level': 'DEBUG',
+            'propogate': True
+        }
+    }
+}
+
+
