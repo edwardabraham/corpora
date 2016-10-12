@@ -1,4 +1,90 @@
 {% extends 'corpora/base.html' %}
 
+{% load static %}
+{% load sekizai_tags %}
+{% load compress %}
+{% load sass_tags %}
+
+
 {% block content %}
+	{% addtoblock "css" %}
+		<link href="{% sass_src 'corpus/css/record.scss' %}" rel="stylesheet" type="text/css" />
+	{% endaddtoblock %}
+
+
+	<h2>Record this sentence:</h2>
+
+	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+
+	<div class="circle background-circle">
+		<a href="javascript:void(0)" class="record-button">
+			<div class="circle foreground-circle unclicked-circle record">
+				<div class="circle-text">REC</div>
+			</div>
+		</a>
+	</div>
+
+	<br>Playback recording:
+
+	<div class="circle background-circle">
+		<a href="javascript:void(0)" class="play-button">
+			<div class="circle foreground-circle unclicked-circle play">
+				<div class="circle-text">PLAY</div>
+			</div>
+		</a>
+	</div>
+
+	{% comment %}
+	<small> Does this recording sound accurate? If so, press Next. If not, go back and fix it with Back.</small>
+
+	<a href="{% url 'corpus:submit_recording' %}">
+		<div class="button submit-audio">
+			Submit
+		</div>
+	</a>
+	{% endcomment %}
+
+	<br>
+
+	<a href="javascript:void(0)" id="approve">
+		<div class="button">
+			Approve recording
+		</div>
+	</a>
+
+	<br>
+	
+	<audio class="play-audio" style="display: none; width: 0px; height: 0px">
+	</audio>
+
+	{% addtoblock "js" %}
+		<script>
+			var person_pk = "{{person.pk}}";
+			var sentence_pk = "{{sentence.pk}}";
+			var encoder_path = "{% static 'opus-recorderjs/build/encoderWorker.min.js' %}";
+		</script>
+
+		<script type="text/javascript" src='{% static 'opus-recorderjs/build/recorder.min.js' %}'></script>
+		<script type="text/javascript" src='{% static 'corpora/js/recorder.storepage.js' %}'></script>
+		<script type="text/javascript" src='{% static 'corpus/js/ajax.post.js' %}'></script>
+		<script type="text/javascript" src='{% static 'corpus/js/record.js' %}'></script>		
+
+	{% endaddtoblock %}
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
