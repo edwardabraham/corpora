@@ -8,20 +8,20 @@ self['onmessage'] = function( e ){
 
     case 'encode':
       if ( wavPCM ) {
-        console.log('encoing wave')
+        // console.log('encoing wave');
         wavPCM.encode( e['data']['buffers'] );
       }
       break;
 
     case 'done':
       if ( wavPCM ) {
-        console.log('done maybe we should send requestdata to something???')
+        // console.log('done maybe we should send requestdata to something???');
         wavPCM.requestData();
       }
       break;
 
     case 'init':
-      console.log('initiating wave encoder')
+      console.log('Initiating wave encoder');
       wavPCM = new WavePCM( e['data'] );
       break;
   }
@@ -116,7 +116,7 @@ WavePCM.prototype.requestData = function(){
     wav.set( this.recordedBuffers[i], i * bufferLength + headerLength );
   }
 
-  console.log('posting message wave wave')
+  // console.log('posting message wave wave');
   self['postMessage']( wav, [wav.buffer] );
   self['close']();
 };
