@@ -61,10 +61,29 @@
 		<script>
 			var person_pk = "{{person.pk}}";
 			var sentence_pk = "{{sentence.pk}}";
+			var encoder_path = "{% static 'opus-recorderjs/build/encoderWorker.min.js' %}";
 		</script>
 
+		<script type="text/javascript" src='{% static 'opus-recorderjs/build/recorder.min.js' %}'></script>
 		<script type="text/javascript" src='{% static 'corpus/js/ajax.post.js' %}'></script>
-		<script type="text/javascript" src='{% static 'corpus/js/record.js' %}'></script>
+		<script type="text/javascript" src='{% static 'corpus/js/record.js' %}'></script>		
 
 	{% endaddtoblock %}
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
