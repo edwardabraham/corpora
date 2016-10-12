@@ -18,7 +18,7 @@ if (!Recorder.isRecordingSupported()) {
 // encoderPath option: directs to correct encoderWorker location
 // leaveStreamOpen option: allows for recording multiple times wihtout reinitializing audio stream
 var recorder = new Recorder({
-	encoderPath: encoder_path,
+	encoderPath: '/static/corpora/js/encodeWaveWorker.js',
 	leaveStreamOpen: true
 });
 
@@ -43,8 +43,8 @@ record_button.onclick = function() {
 
 // Have recorder listen for when the data is available
 recorder.addEventListener("dataAvailable", function(e) {
-	audioBlob = new Blob( [e.detail], {type: 'audio/ogg'});
-	fileName = new Date().toISOString() + ".ogg";
+	audioBlob = new Blob( [e.detail], {type: 'audio/wave'});
+	fileName = new Date().toISOString() + ".wav";
 	var audioURL = URL.createObjectURL( audioBlob );
 
 	audio.src = audioURL;
