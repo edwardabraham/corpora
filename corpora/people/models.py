@@ -31,9 +31,9 @@ class Person(models.Model):
     demographic = models.OneToOneField(Demographic, on_delete=models.CASCADE, null=True)
     # languages
 
-    def name(self):
-        return self.first_name + ' ' + self.last_name
-
     class Meta:
         verbose_name = 'Person'
         verbose_name_plural = 'People'
+
+    def __unicode__(self):
+        return self.full_name
