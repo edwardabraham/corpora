@@ -11,50 +11,84 @@
 		<link href="{% sass_src 'corpus/css/record.scss' %}" rel="stylesheet" type="text/css" />
 	{% endaddtoblock %}
 
+	<div class="container">
+		<div class="pt-perspective">
+			<div class="row pt-page pt-page-current" id="recorder-container">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<h2>Record this sentence in Te Reo: </h2>
+					{{sentence.text}}</br>
+					<h3>When you're ready, press the REC button to record the sentence. When you're done, press the button again to stop the recording.
+					When you have a recording you are satisfied with, press "Next."
+					</h3>
 
-	<h2>Record this sentence:</h2>
+					<div class="circle-button-container">
+						<div class="circle background-circle">
+							<a href="javascript:void(0)" id="record-button">
+								<div class="circle foreground-circle unclicked-circle record">
+									<div class="circle-text">REC</div>
+								</div>
+							</a>
+						</div>
+					</div>
 
-	Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+					<a href="javascript:void(0)" id="next">
+						<div class="button">
+							Next
+						</div>
+					</a>
 
-	<div class="circle background-circle">
-		<a href="javascript:void(0)" class="record-button">
-			<div class="circle foreground-circle unclicked-circle record">
-				<div class="circle-text">REC</div>
+				</div>
 			</div>
-		</a>
+
+			<div class="row pt-page" id="player-container">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+					<h2>Playback your recording of this sentence:</h2>
+					{{sentence.text}}</br>
+					<h3>Press the play button to play the recording back. When you're satisfied with it, press "Save." If you would like to record it again, press "Back."</h3>
+
+					<div class="circle-button-container">
+						<div class="circle background-circle">
+							<a href="javascript:void(0)" id="play-button">
+								<div class="circle foreground-circle unclicked-circle play">
+									<div class="circle-text">PLAY</div>
+								</div>
+							</a>
+						</div>
+					</div>
+
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+						<a href="javascript:void(0)" id="back">
+							<div class="button">
+								Back
+							</div>
+						</a>
+					</div>
+
+					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+						<a href="javascript:void(0)" id="save">
+							<div class="button">
+								Save
+							</div>
+						</a>
+					</div>
+
+				</div>
+			</div>
+		</div>
 	</div>
 
-	<br>Playback recording:
+		{% comment %}
+		<small> Does this recording sound accurate? If so, press Next. If not, go back and fix it with Back.</small>
 
-	<div class="circle background-circle">
-		<a href="javascript:void(0)" class="play-button">
-			<div class="circle foreground-circle unclicked-circle play">
-				<div class="circle-text">PLAY</div>
+		<a href="{% url 'corpus:submit_recording' %}">
+			<div class="button submit-audio">
+				Submit
 			</div>
 		</a>
+		{% endcomment %}
 	</div>
-
-	{% comment %}
-	<small> Does this recording sound accurate? If so, press Next. If not, go back and fix it with Back.</small>
-
-	<a href="{% url 'corpus:submit_recording' %}">
-		<div class="button submit-audio">
-			Submit
-		</div>
-	</a>
-	{% endcomment %}
-
-	<br>
-
-	<a href="javascript:void(0)" id="approve">
-		<div class="button">
-			Approve recording
-		</div>
-	</a>
-
-	<br>
 	
-	<audio class="play-audio" style="display: none; width: 0px; height: 0px">
+	<audio id="play-audio" style="display: none; width: 0px; height: 0px">
 	</audio>
 
 	{% addtoblock "js" %}
@@ -67,24 +101,7 @@
 		<script type="text/javascript" src='{% static 'opus-recorderjs/build/recorder.min.js' %}'></script>
 		<script type="text/javascript" src='{% static 'corpora/js/recorder.storepage.js' %}'></script>
 		<script type="text/javascript" src='{% static 'corpus/js/ajax.post.js' %}'></script>
-		<script type="text/javascript" src='{% static 'corpus/js/record.js' %}'></script>		
+		<script type="text/javascript" src='{% static 'corpus/js/record.js' %}'></script>
 
 	{% endaddtoblock %}
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

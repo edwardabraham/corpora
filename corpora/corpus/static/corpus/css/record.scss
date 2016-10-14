@@ -1,23 +1,33 @@
 @import 'corpora/static/corpora/css/colors';
 
+
+// Circle Buttons CSS
+$lg-bg-circle-size: 160px;
+$lg-fg-circle-inset: 18px;
+
+$sm-bg-circle-size: 110px;
+$sm-fg-circle-inset: 12px;
+
 .circle {
 	border-radius: 50%;
 }
 
 .background-circle {
-	width: 110px;
-	height: 110px;
+	width: $lg-bg-circle-size;
+	height: $lg-bg-circle-size;
 	background: $dark;
 	position: relative;
+	display: inline-block;
+	margin: 20px 20px 20px 20px;
 }
 
 .foreground-circle {
 	background: $default;
 	position: absolute;
-	right: 12px;
-	left: 12px;
-	top: 12px;
-	bottom: 12px;
+	right: $lg-fg-circle-inset;
+	left: $lg-fg-circle-inset;
+	top: $lg-fg-circle-inset;
+	bottom: $lg-fg-circle-inset;
 }
 
 .unclicked-circle {
@@ -30,11 +40,100 @@
 
 .circle-text {
 	color: $darker;
-	font-size: 30px;
+	font-size: 45px;
 
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
 	width: 100%;
 	text-align: center;
+}
+
+.circle-button-container {
+	text-align: center;
+}
+
+// Small device css settings
+@media(max-width: 768px) {
+	.background-circle {
+		width: $sm-bg-circle-size;
+		height: $sm-bg-circle-size;
+	}
+
+	.foreground-circle {
+		right: $sm-fg-circle-inset;
+		left: $sm-fg-circle-inset;
+		top: $sm-fg-circle-inset;
+		bottom: $sm-fg-circle-inset;
+	}
+
+	.circle-text {
+		font-size: 30px;
+	}
+}
+
+
+// Smooth transitions between content
+.pt-perspective {
+	position: relative;
+	perspective: 1200px;
+	transform-style: preserve-3d;
+}
+
+.pt-page {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	visibility: hidden;
+	backface-visibility: hidden;
+	transform: translate3d(0,0,0);
+}
+
+.pt-page-current {
+	visibility: visible;
+}
+
+.pt-page-fadeOut {
+	-webkit-transition: opacity .6s ease-in-out;
+	-moz-transition: opacity .6s ease-in-out;
+	-ms-transition: opacity .6s ease-in-out;
+	-o-transition: opacity .6s ease-in-out;
+	opacity: 0;
+}
+
+.pt-page-moveToLeft {
+	animation: moveToLeft .6s ease both;
+}
+
+.pt-page-moveFromLeft {
+	animation: moveFromLeft .6s ease both;
+}
+
+.pt-page-moveToRight {
+	animation: moveToRight .6s ease both;
+}
+
+.pt-page-moveFromRight {
+	animation: moveFromRight .6s ease both;
+}
+
+
+@keyframes moveToLeft {
+	from { }
+	to { -webkit-transform: translateX(-100%); transform: translateX(-100%); }
+}
+
+@keyframes moveFromLeft {
+	from { -webkit-transform: translateX(-100%); transform: translateX(-100%); }
+}
+
+@keyframes moveToRight { 
+	from { }
+	to { -webkit-transform: translateX(100%); transform: translateX(100%); }
+}
+
+@keyframes moveFromRight {
+	from { -webkit-transform: translateX(100%); transform: translateX(100%); }
 }

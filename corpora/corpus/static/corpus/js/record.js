@@ -1,7 +1,4 @@
-var record_button = document.querySelector('.record-button');
-var play_button = document.querySelector('.play-button');
-var audio = document.querySelector('.play-audio');
-var approve = document.getElementById('approve');
+var audio = document.getElementById('play-audio');
 
 var audioBlob, fileName;
 
@@ -22,7 +19,7 @@ if (!Recorder.isRecordingSupported()) {
 
 	var recording = false;
 	// Record or halt recording when pressing record button
-	record_button.onclick = function() {
+	$('#record-button').click(function() {
 		if (recording == false) {
 			// Start recorder if inactive and set recording state to true
 			recording = true
@@ -37,7 +34,7 @@ if (!Recorder.isRecordingSupported()) {
 			$('.foreground-circle.record').removeClass('clicked-circle').addClass('unclicked-circle');
 		}
 		
-	}
+	});
 
 	// Have recorder listen for when the data is available
 	recorder.addEventListener("dataAvailable", function(e) {
@@ -48,16 +45,33 @@ if (!Recorder.isRecordingSupported()) {
 		audio.src = audioURL;
 	});
 
+
+	// When "Next" is clicked on Recorder page, slide transition to Player page
+	$('#next').click(function() {
+		nextPageTransition($('#recorder-container'), $('#player-container'));
+	});
+
+	// When "Back" is clicked on Player page, slide transition to Recorder page
+	$('#back').click(function() {
+		prevPageTransition($('#player-container'), $('#recorder-container'));
+	});
+
+
 	// If play button clicked, play audio
-	play_button.onclick = function(){
+	$('#play-button').click(function(){
 		audio.play();
-	}
+		$('.foreground-circle.play').removeClass('unclicked-circle').addClass('clicked-circle');
+	});
 
-	// Initialize audio stream (and ask the user if recording allowed?)
-	recorder.initStream();
+	// When audio is done playing back, revert button to initial state
+	$('#play-audio').bind('ended', function(){
+		$('.foreground-circle.play').removeClass('clicked-circle').addClass('unclicked-circle');
+	});
 
-	// If "approve audio" button clicked, create formdata to save recording model
-	approve.onclick = function(){
+
+	// If "save audio" button clicked, create formdata to save recording model
+	$('#save').click(function(){
+		console.log("save???");
 		// Initialize FormData
 		var fd = new FormData();
 		// Set enctype to multipart; necessary for audio form data
@@ -80,5 +94,9 @@ if (!Recorder.isRecordingSupported()) {
 		}).done(function(data) {
 			console.log("Recording data submitted and saved");
 		})
-	}
+	});
+
+
+	// Initialize audio stream (and ask the user if recording allowed?)
+	recorder.initStream();
 }

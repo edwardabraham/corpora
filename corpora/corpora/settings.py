@@ -211,6 +211,7 @@ BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, 'corpora/static')
 
 BOWER_INSTALLED_APPS = {
     'jquery',
+    'jquery-ui',
     'bootstrap',
     'opus-recorderjs'
 }
