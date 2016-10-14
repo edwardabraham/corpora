@@ -25,7 +25,7 @@ from people import views as people_views
 
 
 urlpatterns = [
-
+    url(r'^$', views.home, name='home'),
 	url(r'^', include('corpus.urls',namespace='corpus')),
 
     url(r'^i18n/', include('django.conf.urls.i18n')),
@@ -34,9 +34,10 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 	url(r'^accounts/', include('allauth.urls')),
 
+    url(_(r'^people/'), include('people.urls', namespace='people')),
 
-	url(r'^$', views.home, name='home'),
-    url( _(r'^people/'), include('people.urls', namespace='people')),
+    url(r'^login/', views.login, name='login'),
+
 	# url(r'^$', cache_on_auth(settings.SHORT_CACHE)(views.home), name='home'),
 ]
 

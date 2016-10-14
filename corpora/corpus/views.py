@@ -14,10 +14,12 @@ def failed_submit(request):
 	return render(request, 'corpus/failed_submit.html')
 
 def record(request):
-
-	# Temporary static person and sentence objects
-	person = Person.objects.get(pk=1)
+	# Get the person object from the user
+	person = Person.objects.get(user=request.user)
+	
+	# Temporary static sentence object
 	sentence = Sentence.objects.get(pk=1)
+	# person = Person.objects.get(pk=1)
 
 	# Generate a form model from the Recording model
 	RecordingFormAJAX = modelform_factory(Recording, fields='__all__')

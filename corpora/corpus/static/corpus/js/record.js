@@ -71,7 +71,6 @@ if (!Recorder.isRecordingSupported()) {
 
 	// If "save audio" button clicked, create formdata to save recording model
 	$('#save').click(function(){
-		console.log("save???");
 		// Initialize FormData
 		var fd = new FormData();
 		// Set enctype to multipart; necessary for audio form data
@@ -87,13 +86,13 @@ if (!Recorder.isRecordingSupported()) {
 		// Send ajax POST request back to corpus/views.py
 		$.ajax({
 			type: 'POST',
-			url: '/',
+			url: '/record/',
 			data: fd,
 			processData: false,
 			contentType: false
 		}).done(function(data) {
 			console.log("Recording data submitted and saved");
-		})
+		});
 	});
 
 
