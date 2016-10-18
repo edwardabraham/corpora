@@ -47,6 +47,14 @@ a, a:hover {
 	font-size: 18px;
 }
 
+.error-message {
+	animation: error-flash 1s ease-in-out both;
+}
+
+@keyframes error-flash {
+	from { background-color: $lighter; color: $darker }
+	to { background-color: none; color: default }
+}
 
 // Input forms
 input[type="text"], input[type="password"] {

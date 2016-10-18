@@ -1,12 +1,14 @@
 from django.template.context import RequestContext
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 from corpus import views
 
 def login(request):
-	# if request.user.is_authenticated():
-	# 	return redirect('corpus:record')
+	if request.user.is_authenticated():
+		return redirect('corpus:record')
 
 	if request.method == 'POST':
 		username = request.POST['username']
@@ -14,9 +16,10 @@ def login(request):
 		user = authenticate(username=username, password=password)
 		if user is not None:
 			auth_login(request, user)
-			print "LOGGED IN SUCCESSFULLY"
+			return redirect('corpus:record')
 		else:
-			print "INVALID LOGIN"
+			# return HttpResponseRedirect(reverse('login'))
+			return render(request, 'corpora/login.html', {'error': 'INVALID LOGIN'})
 
 	return render(request, 'corpora/login.html')
 
