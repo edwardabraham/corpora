@@ -28,5 +28,3 @@ def home(request):
 		return redirect('corpus:record')
 	else:
 		return redirect('login')
-	
-	print "\n Corpora home view. Redirects to corpora record. \n"
