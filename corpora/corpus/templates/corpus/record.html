@@ -14,7 +14,8 @@
 	<div class="container">
 		<div class="pt-perspective">
 			<div class="row pt-page pt-page-current" id="recorder-container">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="col-xs-12 col-sm-12 col-md-1 col-lg-1"></div>
+				<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
 					<h2>Record this sentence in Te Reo: </h2>
 					{{sentence.text}}</br>
 					<h3>When you're ready, press the REC button to record the sentence. When you're done, press the button again to stop the recording.
@@ -25,23 +26,27 @@
 						<div class="circle background-circle">
 							<a href="javascript:void(0)" id="record-button">
 								<div class="circle foreground-circle unclicked-circle record">
-									<div class="circle-text">REC</div>
+									<div class="circle-text record">REC</div>
+									<div class="stop-square"></div>
 								</div>
 							</a>
 						</div>
 					</div>
 
-					<a href="javascript:void(0)" id="next">
+					
+					<a href="javascript:void(0)" id="next" style="display: none;">
 						<div class="button">
 							Next
 						</div>
 					</a>
-
+					
 				</div>
+				<div class="col-xs-12 col-sm-12 col-md-1 col-lg-1"></div>
 			</div>
 
 			<div class="row pt-page" id="player-container">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<div class="col-xs-12 col-sm-12 col-md-1 col-lg-1"></div>
+				<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
 					<h2>Playback your recording of this sentence:</h2>
 					{{sentence.text}}</br>
 					<h3>Press the play button to play the recording back. When you're satisfied with it, press "Save." If you would like to record it again, press "Back."</h3>
@@ -73,6 +78,7 @@
 					</div>
 
 				</div>
+				<div class="col-xs-12 col-sm-12 col-md-1 col-lg-1"></div>
 			</div>
 		</div>
 	</div>

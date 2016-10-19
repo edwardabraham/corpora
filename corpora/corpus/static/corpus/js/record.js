@@ -26,12 +26,18 @@ if (!Recorder.isRecordingSupported()) {
 			recorder.start();
 
 			$('.foreground-circle.record').removeClass('unclicked-circle').addClass('clicked-circle');
+			$('.circle-text.record').hide();
+			$('.stop-square').show();
 		} else {
 			// Stop recorder if active and set recording state to false
 			recording = false
 			recorder.stop();
 
 			$('.foreground-circle.record').removeClass('clicked-circle').addClass('unclicked-circle');
+			$('.circle-text.record').show();
+			$('.stop-square').hide();
+
+			$('#next').show();
 		}
 		
 	});

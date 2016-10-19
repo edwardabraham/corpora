@@ -7,5 +7,30 @@
 
 
 {% block content %}
-Please login to access Kia Ora Siri.
+	<div class="container" style="text-align: center;">
+		<div class="row">
+			<div class="col-xs-12 col-sm-1 col-md-3 col-lg-3"></div>
+			<div class="col-xs-12 col-sm-10 col-md-6 col-lg-6 login">
+				<h2> Welcome to Kia Ora Siri! </h2>
+				{% if error %}
+					<h3 class="error-message">{{error}}</h3>
+				{% else %}
+					<h3>Please Login</h3>
+				{% endif %}
+				<form method="post"> {%csrf_token%}
+					<input type="text" name="username" placeholder="Username" class="input-form"><br>
+					<input type="password" name="password" placeholder="Password" class="input-form">
+					<input type="submit" value="Login" class="button submit-button">
+				</form>
+
+				<a href="{% url 'people:create_user' %}" id="create-account-button">
+					<div class="button">
+						Create Account
+					</div>
+				</a>
+
+			</div>
+			<div class="col-xs-12 col-sm-1 col-md-3 col-lg-3"></div>
+		</div>
+	</div>
 {% endblock %}

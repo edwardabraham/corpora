@@ -19,7 +19,7 @@ def record(request):
 	
 	# Temporary static sentence object
 	sentence = Sentence.objects.get(pk=1)
-	# person = Person.objects.get(pk=1)
+	# sentence = get_next_sentence()
 
 	# Generate a form model from the Recording model
 	RecordingFormAJAX = modelform_factory(Recording, fields='__all__')
