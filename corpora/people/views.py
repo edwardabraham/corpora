@@ -12,6 +12,11 @@ logger = logging.getLogger('corpora')
 
 # Create your views here.
 
+
+def profile(request):
+    return render(request, 'people/profile.html', {'request':request, 'user':request.user})
+
+
 def person(request, uuid):
     # from django.utils.translation import activate
     # activate('mi')

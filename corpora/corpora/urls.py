@@ -32,7 +32,7 @@ urlpatterns = [
 
 
     url(r'^admin/', admin.site.urls),
-	url(r'^accounts/', include('allauth.urls')),
+	url(r'^account/', include('allauth.urls')),
 
     url(_(r'^people/'), include('people.urls', namespace='people')),
 
