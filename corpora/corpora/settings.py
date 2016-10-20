@@ -128,7 +128,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
     
 )
-LOGIN_REDIRECT_URL = '/people/profile' # is there a more fool proof option?
+LOGIN_REDIRECT_URL = 'people:profile' # is there a more fool proof option?
 ACCOUNT_ADAPTER = "people.adapter.PersonAccountAdapter"
 SOCIALACCOUNT_ADAPTER = "people.adapter.PersonSocialAccountAdapter"
 
