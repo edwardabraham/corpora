@@ -3,7 +3,7 @@
 {% block content %}
 
 <form action="{% url 'people:set_language' %}" method="post">{% csrf_token %}
-    <input name="next" type="hidden" value="/people/1" />
+    <input name="next" type="hidden" value="/people/profile/" />
     <select name="language">
         {% get_current_language as LANGUAGE_CODE %}
         {% get_available_languages as LANGUAGES %}

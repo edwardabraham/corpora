@@ -12,14 +12,25 @@ class LanguageMiddleware(object):
         # Code to be executed for each request before
         # the view (and later middleware) are called.
 
+        set_cookie = False
         if request.COOKIES.has_key(settings.LANGUAGE_COOKIE_NAME):
             language = request.COOKIES.get(settings.LANGUAGE_COOKIE_NAME)
-            translation.activate(language)
-            request.LANGUAGE_CODE = translation.get_language()
+        else:
+            language = translation.get_language()
+            set_cookie = True
 
-
+        translation.activate(language)
+        request.LANGUAGE_CODE = translation.get_language()
         response = self.get_response(request)
 
+        if set_cookie:
+            response.set_cookie(
+                settings.LANGUAGE_COOKIE_NAME,
+                language,
+                max_age=2*365 * 24 * 60 * 60, 
+                domain=settings.SESSION_COOKIE_DOMAIN, 
+                secure=settings.SESSION_COOKIE_SECURE or None
+            )
 
 
         # Code to be executed for each request/response after

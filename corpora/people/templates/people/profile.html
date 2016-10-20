@@ -53,5 +53,26 @@
 START RECORDING
 </a>
 </div>
+<div>
+	<p>
+        Next Sentence to Record: {{sentence}}
+    </p>
+</div>
+
+
+<form action="{% url 'people:set_language' %}" method="post">{% csrf_token %}
+    <input name="next" type="hidden" value="people:profile" />
+    <label for='language'>Current Language</label>
+    <select name="language" id='language'>
+        {% get_available_languages as LANGUAGES %}
+        {% get_language_info_list for LANGUAGES as languages %}
+        {% for language in languages %}
+            <option  value="{{ language.code }}"{% if language.code == current_language %} selected="selected"{% endif %}>
+                {{ language.name_translated }} ({{ language.code }})
+            </option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Go" />
+</form>
 
 {% endblock %}

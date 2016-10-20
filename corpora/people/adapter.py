@@ -1,6 +1,4 @@
 
-
-
 '''
 Custom adapter methods for allauth. 
 See https://django-allauth.readthedocs.io/en/latest/advanced.html#creating-and-populating-user-instances
