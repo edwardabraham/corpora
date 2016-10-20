@@ -5,7 +5,7 @@ from django.forms import modelform_factory
 from corpus.forms import RecordingForm
 from corpus.models import Recording, Sentence
 from people.models import Person
-
+from .helpers import get_next_sentence
 
 def submit_recording(request):
 	return render(request, 'corpus/submit_recording.html')
@@ -20,6 +20,12 @@ def record(request):
 	# Temporary static sentence object
 	sentence = Sentence.objects.get(pk=1)
 	# sentence = get_next_sentence()
+
+	if request.method == 'GET':
+		if request.GET.get('sentence',None):
+			sentence = Sentence.objects.get(pk=request.GET.get('sentence'))
+		else:
+			sentence = get_next_sentence(request)
 
 	# Generate a form model from the Recording model
 	RecordingFormAJAX = modelform_factory(Recording, fields='__all__')

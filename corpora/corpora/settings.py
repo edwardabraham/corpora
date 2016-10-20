@@ -251,7 +251,8 @@ BOWER_INSTALLED_APPS = {
     'jquery',
     'jquery-ui',
     'bootstrap',
-    'opus-recorderjs'
+    'opus-recorderjs',
+    'components-font-awesome',
 }
 
 # STATICFILES_DIRS = (

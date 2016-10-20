@@ -3,13 +3,39 @@
 {% load i18n %}
 {% load account %}
 {% load socialaccount %}
+{% load sekizai_tags %}
+{% load static %}
 
 
 {% block navbuttons %}
+{% addtoblock "css" %}
+    <link rel="stylesheet" href="{% static 'components-font-awesome/css/font-awesome.min.css' %}">
+{% endaddtoblock %}
 
-{% if request.user.is_authenticated %}
+    <div class="btn-group">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fa fa-fw fa-language"></i>
+        {% get_language_info for current_language as lang %}
+        {{lang.name_local}} <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        {% comment %}Instead we'll want to get the KnownLanguages for the Person {% endcomment %}
+        {% get_available_languages as LANGUAGES %}
+        {% get_language_info_list for LANGUAGES as languages %}
+        {% for language in languages %}
+            <li><a href="#" onclick="$('form[id=language_selector_form] input[name=language]').val('{{language.code}}');$('form[id=language_selector_form]').submit();">{{ language.name_translated }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <form class="hidden" action="{% url 'people:set_language' %}" method="post" id="language_selector_form">{% csrf_token %}
+    <input name="next" type="hidden" value="people:profile" />
+    <input name="language" type="hidden" value="{{current_language}}" />
+    </form>
+
+    {% if request.user.is_authenticated %}
     <button type="button" class="btn btn-default">
-        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+        <i class="fa fa-fw fa-user"></i>
         {% trans 'Settings' %}
     </button>
     <form method="post" action="{% url 'account_logout' %}" style="display: inline-block;">
@@ -18,61 +44,63 @@
             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
         {% endif %}
         <button type="submit" class="btn btn-default">
-            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+            <i class="fa fa-fw  fa-sign-out"></i>
             {% trans 'Log Out' %}
         </button>
     </form>
-{% endif %}
+    {% endif %}
+
+{% addtoblock "js" %}
+    <script type="text/javascript" src='{% static 'bootstrap/dist/js/bootstrap.min.js' %}'></script>
+{% endaddtoblock %}
 
 {% endblock %}
+
+
+
+
 
 {% block content %}
 
-{% user_display user as user_display %}
-{% blocktrans %}{{ user_display }} has logged in...{% endblocktrans %}
-
-
-{% get_social_accounts user as accounts %}
-
-{% if request.user.is_authenticated %}
-  
-   {% if request.user.first_name or request.user.last_name %}
-        {{ request.user.first_name }} {{ request.user.last_name }}
-    {% else %}
-        {{ request.user.username }}
-    {% endif %}
-    {% if request.user.profile.account_verified %} (verified) {% else %} (unverified) {% endif %}
- 
-{% else %}
-    <a href="/account/login/" class="pull-right">Login</a>
-{% endif %}
-
-
-<div>
-<a href="/record">
-START RECORDING
-</a>
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <h2>{% trans 'Hello' %}{% if person %} {{ person.full_name }}{% endif %}.</h2>
+    </div>
 </div>
-<div>
-	<p>
-        Next Sentence to Record: {{sentence}}
-    </p>
+
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        {% if sentences %}
+        <a href="/record">{% trans 'Start recording corpora.' %}</a> 
+        {% endif %}
+    </div>
 </div>
 
 
-<form action="{% url 'people:set_language' %}" method="post">{% csrf_token %}
-    <input name="next" type="hidden" value="people:profile" />
-    <label for='language'>Current Language</label>
-    <select name="language" id='language'>
-        {% get_available_languages as LANGUAGES %}
-        {% get_language_info_list for LANGUAGES as languages %}
-        {% for language in languages %}
-            <option  value="{{ language.code }}"{% if language.code == current_language %} selected="selected"{% endif %}>
-                {{ language.name_translated }} ({{ language.code }})
-            </option>
+<div class="row">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <h2>{% trans 'Recordings' %}</h2>
+        {% for recording in recordings %}
+        <div class="recording">
+            {{recording.sentence}} <br>
+            <audio preload='none' controls><source src="{{recording.audio_file.url}}" ></audio>
+        </div>
         {% endfor %}
-    </select>
-    <input type="submit" value="Go" />
-</form>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <h2>{% trans 'Sentences' %}</h2>
+        {% if sentences %}        
+        {% for sentence in sentences %}
+        <div class="sentence">
+            {{sentence.text}} <a href="/record?sentence={{sentence.pk}}"><i class="fa fa-fw fa-microphone"></i>{% trans 'Record'%}</a>
+        </div>
+        {% endfor %}   
+        {% else %}
+        <p>{% blocktrans %}All done! You've recorded a corpus for all sentnces.{% endblocktrans %}</p>     
+        {% endif %}
+    </div>    
+</div>
 
-{% endblock %}
+
+
+{% endblock %}''

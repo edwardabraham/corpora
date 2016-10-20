@@ -8,7 +8,10 @@ from django.utils.translation import ugettext as _
 from django.urls import reverse
 
 from .helpers import get_current_language
-from corpus.helpers import get_sentence
+from corpus.helpers import get_next_sentence, get_sentences
+
+from .models import Person
+from corpus.models import Recording, Sentence
 
 import logging
 logger = logging.getLogger('corpora')
@@ -17,11 +20,24 @@ logger = logging.getLogger('corpora')
 
 
 def profile(request):
-    sentence = get_sentence(request)
+    sentence = get_next_sentence(request)
     current_language = get_current_language(request)
 
     if request.user.is_authenticated():
-        return render(request, 'people/profile.html', {'request':request, 'user':request.user, 'sentence':sentence, 'current_language':current_language})
+        person = Person.objects.get(user=request.user)
+
+        recordings = Recording.objects.filter(person__user=request.user, sentence__language=current_language)
+        sentences = get_sentences(request, recordings)
+
+        return render(request, 'people/profile.html', 
+            {'request':request, 
+             'user':request.user, 
+             'sentence':sentence, 
+             'current_language':current_language,
+             'person': person,
+             'recordings': recordings,
+             'sentences': sentences,
+             })
     else:
         # We should enable someone to provide recordings without loging in - and we can show their recordings - user coockies to track
         # BUt for now we'll redirect to login
@@ -32,7 +48,7 @@ def person(request, uuid):
     # # from django.utils.translation import activate
     # # activate('mi')
     lang = get_current_language(request)
-    sentence = get_sentence(request)
+    sentence = get_next_sentence(request)
 
     logger.debug('Language Cookie Is: {0}'.format(lang))
 
