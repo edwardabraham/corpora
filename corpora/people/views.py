@@ -12,7 +12,13 @@ logger = logging.getLogger('corpora')
 
 
 def profile(request):
-    return render(request, 'people/profile.html', {'request':request, 'user':request.user})
+
+    if request.user.is_authenticated():
+        return render(request, 'people/profile.html', {'request':request, 'user':request.user})
+    else:
+        # We should enable someone to provide recordings without loging in - and we can show their recordings - user coockies to track
+        # BUt for now we'll redirect to login
+        return redirect(reverse('account:login'))
 
 
 def person(request, uuid):

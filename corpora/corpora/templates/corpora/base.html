@@ -36,8 +36,17 @@
 
 <body>
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 banner">
-		<h1>Kia Ora Siri</h1>
-		<h3 class="sub-header-text">Help computers learn to speak Te Reo.</h3>
+		<div class="row">
+			<div class="col-lg-9 col-md-9 col-sm-8 col-xs-8" >
+				<h1>Kia Ora Siri</h1>
+				<h3 class="sub-header-text">Help computers learn to speak Te Reo.</h3>
+			</div>
+
+			<div class="col-lg-3 col-md-3 col-sm-4 col-xs-4 pull-right">
+				{% block navbuttons %}
+		    	{% endblock %}
+		    </div>
+	    </div>
 	</div>
 
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 content">
