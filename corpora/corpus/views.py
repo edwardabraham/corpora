@@ -6,6 +6,7 @@ from corpus.forms import RecordingForm
 from corpus.models import Recording, Sentence
 from people.models import Person
 from .helpers import get_next_sentence
+from people.helpers import get_or_create_person_from_user
 
 def submit_recording(request):
 	return render(request, 'corpus/submit_recording.html')
@@ -15,7 +16,7 @@ def failed_submit(request):
 
 def record(request):
 	# Get the person object from the user
-	person = Person.objects.get(user=request.user)
+	person = get_or_create_person_from_user(request.user)
 	
 	# Temporary static sentence object
 	sentence = Sentence.objects.get(pk=1)
