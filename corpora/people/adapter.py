@@ -8,6 +8,7 @@ from allauth.account.adapter import DefaultAccountAdapter
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 
 from .models import Person, Demographic
+from .helpers import get_or_create_person_from_user
 from datetime import datetime
 
 import logging
@@ -20,14 +21,7 @@ class PersonAccountAdapter(DefaultAccountAdapter):
         user = super(PersonAccountAdapter, self).save_user(request, user, form)
 
         # Create a People Object with User Information
-        first = '' if not user.first_name else user.first_name
-        last = '' if not user.last_name else user.last_name
-        if first=='' and last=='':
-            full_name = user.username
-        else:
-            full_name = '{0} {1}'.format(first, last)
-        person = Person.objects.create(user=user, full_name=full_name)
-        person.save()
+        person = get_or_create_person_from_user(user)
 
 
 class PersonSocialAccountAdapter(DefaultSocialAccountAdapter):
@@ -37,12 +31,7 @@ class PersonSocialAccountAdapter(DefaultSocialAccountAdapter):
         user = super(PersonSocialAccountAdapter, self).save_user(request, sociallogin, form=None)
 
         # Create a People Object with User Information
-        first = '' if not user.first_name else user.first_name
-        last = '' if not user.last_name else user.last_name
-        full_name = '{0} {1}'.format(first, last)
-        
-        person = Person.objects.create(user=user, full_name=full_name)
-        person.save()
+        person = get_or_create_person_from_user(user)
 
         if user.birthday or user.gender:
             gender = user.gender
