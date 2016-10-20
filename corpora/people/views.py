@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.utils import translation
 from django.conf import settings
+from django.urls import reverse
 from django.utils.translation import ugettext as _
 
 import logging
@@ -18,7 +19,7 @@ def profile(request):
     else:
         # We should enable someone to provide recordings without loging in - and we can show their recordings - user coockies to track
         # BUt for now we'll redirect to login
-        return redirect(reverse('account:login'))
+        return redirect(reverse('account_login'))
 
 
 def person(request, uuid):
