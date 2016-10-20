@@ -35,8 +35,8 @@
 
     {% if request.user.is_authenticated %}
     <button type="button" class="btn btn-default">
-        <i class="fa fa-fw fa-user"></i>
-        {% trans 'Settings' %}
+        <i class="fa fa-edit"></i>
+        {% trans 'Edit Info' %}
     </button>
     <form method="post" action="{% url 'account_logout' %}" style="display: inline-block;">
         {% csrf_token %}
@@ -68,33 +68,35 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        {% if sentences %}
-        <a href="/record">{% trans 'Start recording corpora.' %}</a> 
-        {% endif %}
-    </div>
-</div>
-
 
 <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <h2>{% trans 'Recordings' %}</h2>
+        {% if recordings %}
         {% for recording in recordings %}
         <div class="recording">
             {{recording.sentence}} <br>
             <audio preload='none' controls><source src="{{recording.audio_file.url}}" ></audio>
         </div>
         {% endfor %}
+        {% else %}
+        <p>{% blocktrans %}You haven't recorded any corpus yet.{% endblocktrans %}</p>
+        <a class="btn btn-default btn-sm" href="/record">
+            <i class="fa fa-fw fa-microphone"></i>
+            {% trans 'Start Recording' %}
+        </a>
+        {% endif %}
     </div>
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 sentences">
         <h2>{% trans 'Sentences' %}</h2>
-        {% if sentences %}        
+        {% if sentences %}
+        <div class="row">
         {% for sentence in sentences %}
-        <div class="sentence">
-            {{sentence.text}} <a href="/record?sentence={{sentence.pk}}"><i class="fa fa-fw fa-microphone"></i>{% trans 'Record'%}</a>
-        </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 sentence">
+                <a href="/record?sentence={{sentence.pk}}" class="btn btn-default btn-sm"><i class="fa fa-fw fa-microphone"></i>{% trans 'Record'%}</a> {{sentence.text}} 
+            </div>
         {% endfor %}   
+        </div>
         {% else %}
         <p>{% blocktrans %}All done! You've recorded a corpus for all sentnces.{% endblocktrans %}</p>     
         {% endif %}
