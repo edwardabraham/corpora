@@ -17,10 +17,6 @@ def failed_submit(request):
 def record(request):
 	# Get the person object from the user
 	person = get_or_create_person_from_user(request.user)
-	
-	# Temporary static sentence object
-	sentence = Sentence.objects.get(pk=1)
-	# sentence = get_next_sentence()
 
 	if request.method == 'GET':
 		if request.GET.get('sentence',None):

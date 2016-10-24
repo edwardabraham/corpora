@@ -37,7 +37,8 @@ if (!Recorder.isRecordingSupported()) {
 			$('.circle-text.record').show();
 			$('.stop-square').hide();
 
-			$('#next').show();
+			$('#play-button').show();
+			$('#record-button').hide();
 		}
 		
 	});
@@ -51,18 +52,6 @@ if (!Recorder.isRecordingSupported()) {
 		audio.src = audioURL;
 	});
 
-
-	// When "Next" is clicked on Recorder page, slide transition to Player page
-	$('#next').click(function() {
-		nextPageTransition($('#recorder-container'), $('#player-container'));
-	});
-
-	// When "Back" is clicked on Player page, slide transition to Recorder page
-	$('#back').click(function() {
-		prevPageTransition($('#player-container'), $('#recorder-container'));
-	});
-
-
 	// If play button clicked, play audio
 	$('#play-button').click(function(){
 		audio.play();
@@ -72,8 +61,15 @@ if (!Recorder.isRecordingSupported()) {
 	// When audio is done playing back, revert button to initial state
 	$('#play-audio').bind('ended', function(){
 		$('.foreground-circle.play').removeClass('clicked-circle').addClass('unclicked-circle');
+		
+		$('#redo').show();
+		$('#save').show();
 	});
 
+	$("#redo").click(function() {
+		$('#play-button').hide();
+		$('#record-button').show();
+	});
 
 	// If "save audio" button clicked, create formdata to save recording model
 	$('#save').click(function(){
@@ -98,9 +94,9 @@ if (!Recorder.isRecordingSupported()) {
 			contentType: false
 		}).done(function(data) {
 			console.log("Recording data submitted and saved");
+			console.log(data);
 		});
 	});
-
 
 	// Initialize audio stream (and ask the user if recording allowed?)
 	recorder.initStream();
