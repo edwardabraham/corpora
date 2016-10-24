@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.template.context import RequestContext
 from django.forms import modelform_factory
 
-from corpus.forms import RecordingForm
 from corpus.models import Recording, Sentence
 from people.models import Person
 from .helpers import get_next_sentence
