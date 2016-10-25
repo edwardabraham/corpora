@@ -7,11 +7,14 @@ from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.urls import reverse
 
-from .helpers import get_current_language
+from .helpers import get_current_language, get_num_supported_languages, get_or_create_person_from_user, get_unknown_languages
 from corpus.helpers import get_next_sentence, get_sentences
 
-from .models import Person
+from .models import Person, KnownLanguage
 from corpus.models import Recording, Sentence
+
+from django.forms import inlineformset_factory
+from .forms import KnownLanguageFormWithPerson
 
 import logging
 logger = logging.getLogger('corpora')
@@ -59,7 +62,40 @@ def person(request, uuid):
 
 
 def choose_language(request):
-    return render(request, 'people/choose_language.html')
+    person = get_or_create_person_from_user(request.user)
+    if not person:
+        return redirect(reverse('account_login'))
+
+
+    known_languages = KnownLanguage.objects.filter(person=person).count()
+    if known_languages >0:
+        extra = known_languages
+    else:
+        extra = 1
+    unknown = get_unknown_languages(person)
+    
+    KnownLanguageFormset = inlineformset_factory(Person, KnownLanguage, form=KnownLanguageFormWithPerson, fields=('language','level_of_proficiency','person'), max_num=get_num_supported_languages(), extra= extra )
+    # formset  = KnownLanguageFormset(form_kwargs={'person':person})
+    # KnownLanguageFormsetWithPerson = inlineformset_factory(Person, KnownLanguage, form=form,  fields=('language','level_of_proficiency','person'), max_num=get_num_supported_languages(), extra=known_languages+1)
+    
+    if request.method == 'POST':
+        formset = KnownLanguageFormset(request.POST, request.FILES, instance=person, form_kwargs={'person':person})
+        if formset.has_changed():
+            if formset.is_valid():
+                formset.save()
+                return redirect(reverse('people:choose_language'))
+
+        else:
+            return redirect(reverse('people:choose_language'))
+            # formset = KnownLanguageFormsetWithPerson(instance=person)    
+            
+    else:
+
+        formset = KnownLanguageFormset(instance=person, form_kwargs={'person':person})
+
+        # for form in formset:
+
+    return render(request, 'people/choose_language.html', {'formset':formset, 'known_languages':known_languages, 'unknown_languages':unknown})
 
 def set_language(request):
 

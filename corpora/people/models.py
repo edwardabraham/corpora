@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.forms import ModelForm
 
 from django.contrib.auth.models import User
 
@@ -43,7 +44,7 @@ class Demographic(models.Model):
 
     birthday = models.DateField(help_text=_('When were you born?'), null=True, blank=True)
     sex = models.CharField(help_text=_('Gender'), choices=SEX_CHOICES, max_length=2, null=True, blank=True)
-    person = models.OneToOneField(Person, on_delete=models.CASCADE, null=True)
+    person = models.OneToOneField(Person, on_delete=models.CASCADE, null=True, unique=True)
 
     # tribe
     # ethnicities
@@ -61,7 +62,9 @@ class KnownLanguage(models.Model):
             (9, _('Second Language Learner - Advanced')),
         )
 
-    language = models.CharField(choices=LANGUAGES, max_length=16, default=LANGUAGE_CODE)
+    language = models.CharField(choices=LANGUAGES, max_length=16)
     level_of_proficiency = models.IntegerField(choices=PROFICIENCIES)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
 
+    class Meta:
+        unique_together = (('person','language'))
