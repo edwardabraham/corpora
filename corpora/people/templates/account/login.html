@@ -40,28 +40,12 @@
   <form class="login" method="POST" action="{% url 'account_login' %}" style="text-align: center;">
     {% csrf_token %}
 
-    {% for field in form %}
-      {% if field != form.remember %}
-        <p>
-          {{ field.errors }}  
-
-          {{ field }}
-
-          {% if field.help_text %}
-          <h3><p class="help">{{ field.help_text|safe }}</p></h3>
-          {% endif %}
-        </p>
-      {% endif %}
-    {% endfor %}
+    {{form.as_p}}
 
     {% if redirect_field_value %}
       <input type="hidden" name="{{ redirect_field_name }}" value="{% url 'people:profile' %}" />
     {% endif %}
 
-    <small>{{form.remember.label_tag}}
-    {{form.remember}}</small>
-
-    <br>
     <a class="secondaryAction" href="{% url 'account_reset_password' %}">
       <h3 style="opacity: 0.5">{% trans "Forgot Password?" %}</h3>
     </a>

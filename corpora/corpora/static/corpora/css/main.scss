@@ -47,13 +47,13 @@ a:visited, a:active, a:hover {
 	font-size: 18px;
 }
 
-.error-message {
+.error-message, .errorlist {
 	animation: error-flash 1s ease-in-out both;
 }
 
 @keyframes error-flash {
 	from { background-color: $lighter; color: $darker }
-	to { background-color: none; color: default }
+	to { background-color: none; color: $lighter }
 }
 
 

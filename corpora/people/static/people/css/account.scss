@@ -18,9 +18,9 @@ form {
 	text-align: left;
 }
 
-// label {
-// 	display: none
-// }
+.errorlist {
+	font-size: smaller;
+}
 
 input[type="checkbox"] {
 	-webkit-appearance: none;
@@ -52,21 +52,10 @@ input[type="checkbox"]:checked:after {
 	color: $lighter;
 }
 
-// form {
-// 	text-align: left;
-// }
+label[for=id_remember] {
+	font-size: smaller;
+}
 
-// label {
-// 	// display: none
-// }
-
-// // Small device css settings
-// @media(max-width: 768px) {
-// 	form {
-// 		text-align: center;
-// 	}
-
-// 	label {
-// 		display: none;
-// 	}
-// }
+label[for=id_login], label[for=id_password] {
+	display: none;
+}
