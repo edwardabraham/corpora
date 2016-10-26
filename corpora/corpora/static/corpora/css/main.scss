@@ -20,7 +20,7 @@ a:visited, a:active, a:hover {
     box-shadow: 0px 2px 10px black;
 }
 
-.button, button, input[type="submit"] {
+.button {
 	background-color: $dark;
 	color: $lighter;
 	text-align: center;
@@ -34,7 +34,7 @@ a:visited, a:active, a:hover {
 	width: 100%;
 }
 
-.button:hover, button[type="submit"]:hover, input[type="submit"]:hover {
+.button:hover {
 	text-decoration: none;
 	transform: scale(1.05, 1.05);
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
