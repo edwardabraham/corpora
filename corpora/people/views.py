@@ -124,13 +124,9 @@ def set_language(request):
     # return render(request, 'people/choose_language.html')
 
 def create_demographics(request):
-    logger.debug("user")
-    logger.debug(request.user)
     if request.method == "POST":
         form = DemographicForm(request.POST)
         person = get_or_create_person_from_user(request.user)
-        logger.debug('Demographic POST')
-        logger.debug(person)
 
         if form.is_valid():
             demographic = form.save(commit=False)
