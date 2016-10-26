@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.urls import reverse
 
-from .helpers import get_current_language, get_num_supported_languages, get_or_create_person_from_user, get_unknown_languages
+from .helpers import get_current_language, get_num_supported_languages, get_or_create_person_from_user, get_unknown_languages, set_current_language_for_person, set_language_cookie
 from corpus.helpers import get_next_sentence, get_sentences
 
 from .models import Person, KnownLanguage
@@ -28,9 +28,23 @@ def profile(request):
 
     if request.user.is_authenticated():
         person = Person.objects.get(user=request.user)
+        known_languages = KnownLanguage.objects.filter(person=person)
+        if not current_language:
+            if len(known_languages)==0:
+                url = reverse('people:choose_language') + '?next=people:profile'
+                return redirect(url)
+            elif len(known_languages)==1:
+                set_current_language_for_person(person, known_languages[0].language)
+                current_language = known_languages[0].language
+            else:
+
+                pass
+
+
 
         recordings = Recording.objects.filter(person__user=request.user, sentence__language=current_language)
         sentences = get_sentences(request, recordings)
+        known_languages = [i.language for i in known_languages]
 
         return render(request, 'people/profile.html', 
             {'request':request, 
@@ -40,6 +54,7 @@ def profile(request):
              'person': person,
              'recordings': recordings,
              'sentences': sentences,
+             'known_languages': known_languages
              })
     else:
         # We should enable someone to provide recordings without loging in - and we can show their recordings - user coockies to track
@@ -66,6 +81,7 @@ def choose_language(request):
     if not person:
         return redirect(reverse('account_login'))
 
+    next_page = request.GET.get('next',None)
 
     known_languages = KnownLanguage.objects.filter(person=person).count()
     if known_languages >0:
@@ -83,10 +99,16 @@ def choose_language(request):
         if formset.has_changed():
             if formset.is_valid():
                 formset.save()
-                return redirect(reverse('people:choose_language'))
+                if next_page:
+                    return redirect(reverse(next_page))
+                else:
+                    return redirect(reverse('people:choose_language'))
 
         else:
-            return redirect(reverse('people:choose_language'))
+            if next_page:
+                return redirect(reverse(next_page))
+            else:
+                return redirect(reverse('people:choose_language'))
             # formset = KnownLanguageFormsetWithPerson(instance=person)    
             
     else:
@@ -102,19 +124,19 @@ def set_language(request):
     if request.method=='POST':
         if request.POST.get('language','') != '':
             user_language = request.POST.get('language','')
+            person = get_or_create_person_from_user(request.user)
+            set_current_language_for_person(person, user_language)
             translation.activate(user_language)
             request.session[translation.LANGUAGE_SESSION_KEY] = user_language
 
             url = reverse(request.POST.get('next','people:choose_language'))
-        # request.GET.set('next') = url
+
             response =  redirect(url) #render(request,  'people/set_language.html')
-            response.set_cookie(settings.LANGUAGE_COOKIE_NAME,
-                user_language,
-                max_age=2*365 * 24 * 60 * 60, 
-                domain=settings.SESSION_COOKIE_DOMAIN, 
-                secure=settings.SESSION_COOKIE_SECURE or None)
+                
+            response = set_language_cookie(response, user_language)
+
             return response
-            # return redirect('people/1')
+
     else:
         # if request.GET.get('next'):
         #     return HttpResponseRedirect( reverse(request.GET.get('next')) )

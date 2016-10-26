@@ -3,6 +3,8 @@
 from django.utils import translation
 from django.conf import settings
 
+from people.helpers import get_current_language
+
 class LanguageMiddleware(object):
     def __init__(self, get_response):
         self.get_response = get_response
@@ -15,9 +17,13 @@ class LanguageMiddleware(object):
         set_cookie = False
         if request.COOKIES.has_key(settings.LANGUAGE_COOKIE_NAME):
             language = request.COOKIES.get(settings.LANGUAGE_COOKIE_NAME)
+        elif request.user.is_authenticated():
+            current_language = get_current_language(request)
+            if current_language:
+                set_cookie = True
         else:
             language = translation.get_language()
-            set_cookie = True
+            # set_cookie = True
 
         translation.activate(language)
         request.LANGUAGE_CODE = translation.get_language()

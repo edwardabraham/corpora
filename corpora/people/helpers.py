@@ -7,12 +7,32 @@ from .models import Person, KnownLanguage
 import logging
 logger = logging.getLogger('corpora')
 
+
+def set_language_cookie(response, language):
+    response.set_cookie(
+        settings.LANGUAGE_COOKIE_NAME,
+        language,
+        max_age=2*365 * 24 * 60 * 60, 
+        domain=settings.SESSION_COOKIE_DOMAIN, 
+        secure=settings.SESSION_COOKIE_SECURE or None
+    )
+    return response
+
+def set_current_language_for_person(person, language):    
+    kl = KnownLanguage.objects.get(person=person, language=language)
+    kl.active = True
+    kl.save()
+
 def get_current_language(request):
-    if request.COOKIES.has_key(settings.LANGUAGE_COOKIE_NAME):
-        return request.COOKIES[settings.LANGUAGE_COOKIE_NAME]
+    if request.user.is_authenticated():
+        person = get_or_create_person_from_user(request.user)
+        try:
+            active_language = KnownLanguage.objects.get(person=person, active=True)
+        except ObjectDoesNotExist:
+            return None
+        return active_language.language # are we returning tuple or ang code??
     else:
         return translation.get_language()
-
 
 def get_or_create_person_from_user(user):
     if user.is_anonymous:

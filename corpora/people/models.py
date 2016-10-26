@@ -12,6 +12,9 @@ from corpora.settings import LANGUAGES, LANGUAGE_CODE # Import supported languag
 from django.utils.translation import ugettext_lazy as _
 
 
+from django.dispatch import receiver
+
+
 class Tribe(models.Model):
     name = models.CharField(help_text='Name',max_length=200)
 
@@ -65,6 +68,16 @@ class KnownLanguage(models.Model):
     language = models.CharField(choices=LANGUAGES, max_length=16)
     level_of_proficiency = models.IntegerField(choices=PROFICIENCIES)
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
+    active = models.BooleanField(default=False)
 
     class Meta:
         unique_together = (('person','language'))
+
+
+@receiver(models.signals.post_save, sender=KnownLanguage)
+def deactivate_other_known_languages_when_known_language_activated(sender, instance, **kwargs):
+    if instance.active:
+        known_languages = KnownLanguage.objects.filter(person=instance.person).exclude(pk=instance.pk)
+        for kl in known_languages:
+            kl.active = False
+            kl.save()

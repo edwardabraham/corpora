@@ -226,9 +226,9 @@ django.conf.locale.LANG_INFO = LANG_INFO
 
 from django.utils.translation import ugettext_lazy as _
 LANGUAGES = (
-    ('en',    _('English')),
+    # ('en',    _('English')),
+    ('mi',    _('Maori')),
     ('en_NZ', _('New Zealand English')),
-    ('mi',    _('Maori'))
 )
 # LANGUAGE_COOKIE_NAME='corpora-language'
 
