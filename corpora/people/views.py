@@ -10,8 +10,10 @@ from django.urls import reverse
 from .helpers import get_current_language
 from corpus.helpers import get_next_sentence, get_sentences
 
-from .models import Person
+from .models import Person, Demographic
 from corpus.models import Recording, Sentence
+
+from .forms import DemographicForm
 
 import logging
 logger = logging.getLogger('corpora')
@@ -87,6 +89,21 @@ def set_language(request):
 
     # return render(request, 'people/choose_language.html')
 
+def create_demographics(request):
+    if request.method == "POST":
+        form = DemographicForm(request.POST)
+
+        if form.is_valid():
+            demographic = form.save(commit=False)
+            demographic.person = Person.objects.get(user=request.user)
+            demographic.save()
+
+            return redirect('people:profile')
+
+    else:
+        form = DemographicForm()
+
+    return render(request, 'people/demographics.html', {'form': form})
 
 def create_user(request):
     return render(request, 'people/create_account.html')
