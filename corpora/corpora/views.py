@@ -6,25 +6,8 @@ from django.urls import reverse
 
 from corpus import views
 
-def login(request):
-	if request.user.is_authenticated():
-		return redirect('corpus:record')
-
-	if request.method == 'POST':
-		username = request.POST['username']
-		password = request.POST['password']
-		user = authenticate(username=username, password=password)
-		if user is not None:
-			auth_login(request, user)
-			return redirect('corpus:record')
-		else:
-			# return HttpResponseRedirect(reverse('login'))
-			return render(request, 'corpora/login.html', {'error': 'INVALID LOGIN'})
-
-	return render(request, 'corpora/login.html')
-
 def home(request):
 	if request.user.is_authenticated():
-		return redirect('corpus:record')
+		return redirect('people:profile')
 	else:
-		return redirect('login')
+		return redirect('account/login')

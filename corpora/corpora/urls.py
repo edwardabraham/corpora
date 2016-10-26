@@ -36,8 +36,6 @@ urlpatterns = [
 
 	url(_(r'^people/'), include('people.urls', namespace='people')),
 
-	url(r'^login/', views.login, name='login'),
-
 	# url(r'^$', cache_on_auth(settings.SHORT_CACHE)(views.home), name='home'),
 ]
 

@@ -1,0 +1,72 @@
+@import 'corpora/static/corpora/css/colors';
+
+ul, ul.a {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	list-style: none;
+}
+
+.p-text-block {
+	padding-top: 15px;
+}
+
+form {
+	text-align: left;
+}
+
+// label {
+// 	display: none
+// }
+
+input[type="checkbox"] {
+	-webkit-appearance: none;
+	background-color: $dark;
+	border: 1px solid $darker;
+	padding: 8px;
+	border-radius: 3px;
+	display: inline-block;
+	position: relative;
+	margin-left: 3px;
+}
+
+input[type="checkbox"]:focus {
+	outline: 0;
+}
+
+input[type="checkbox"]:checked {
+	background-color: $dark;
+	border: 1px solid $darker;
+	color: $darker;
+}
+
+input[type="checkbox"]:checked:after {
+	content: '\2714';
+	font-size: 14px;
+	position: absolute;
+	top: 0px;
+	left: 3px;
+	color: $lighter;
+}
+
+// form {
+// 	text-align: left;
+// }
+
+// label {
+// 	// display: none
+// }
+
+// // Small device css settings
+// @media(max-width: 768px) {
+// 	form {
+// 		text-align: center;
+// 	}
+
+// 	label {
+// 		display: none;
+// 	}
+// }

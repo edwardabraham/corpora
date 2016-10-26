@@ -1,10 +1,15 @@
 {% extends "account/base.html" %}
 
 {% load i18n %}
+{% load account socialaccount %}
+{% load static %}
+{% load sekizai_tags %}
+{% load compress %}
+{% load sass_tags %}
 
 {% block head_title %}{% trans "Account" %}{% endblock %}
 
-{% block content %}
+{% block account_content %}
     <h1>{% trans "E-mail Addresses" %}</h1>
 {% if user.emailaddress_set.all %}
 <p>{% trans 'The following e-mail addresses are associated with your account:' %}</p>
@@ -53,7 +58,7 @@
         <button name="action_add" type="submit">{% trans "Add E-mail" %}</button>
     </form>
 
-{% endblock %}
+{% endblock account_content %}
 
 
 {% block extra_body %}
