@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.utils import translation
 from django.conf import settings
-from django.urls import reverse
+from django.urls import reverse, resolve
 from django.utils.translation import ugettext as _
 from django.urls import reverse
 
@@ -25,7 +25,7 @@ logger = logging.getLogger('corpora')
 def profile(request):
     sentence = get_next_sentence(request)
     current_language = get_current_language(request)
-
+    
     if request.user.is_authenticated():
         person = Person.objects.get(user=request.user)
         known_languages = KnownLanguage.objects.filter(person=person)
@@ -83,6 +83,10 @@ def choose_language(request):
     if not person:
         return redirect(reverse('account_login'))
 
+    current_language = get_current_language(request)
+    if current_language:
+        set_current_language_for_person(person, current_language)    
+
     next_page = request.GET.get('next',None)
 
     known_languages = KnownLanguage.objects.filter(person=person).count()
@@ -100,11 +104,29 @@ def choose_language(request):
         formset = KnownLanguageFormset(request.POST, request.FILES, instance=person, form_kwargs={'person':person})
         if formset.has_changed():
             if formset.is_valid():
-                formset.save()
+                instances = formset.save()
+
+                
+                current_language = get_current_language(request)
+                if not current_language:
+                    for instance in instances:
+                        if instance.active:
+                            current_language = obj.language
+                if current_language:
+                    set_current_language_for_person(person, current_language)
+
+                    logger.debug(current_language)              
+
+                    
                 if next_page:
-                    return redirect(reverse(next_page))
+                    response = redirect(reverse(next_page))
                 else:
-                    return redirect(reverse('people:choose_language'))
+                    response  = redirect(reverse('people:choose_language'))
+
+                response = set_language_cookie(response, current_language)
+
+                return response
+
 
         else:
             if next_page:
@@ -118,12 +140,29 @@ def choose_language(request):
         formset = KnownLanguageFormset(instance=person, form_kwargs={'person':person})
 
         # for form in formset:
+    response = render(request, 'people/choose_language.html', {'formset':formset, 'known_languages':known_languages, 'unknown_languages':unknown})
 
-    return render(request, 'people/choose_language.html', {'formset':formset, 'known_languages':known_languages, 'unknown_languages':unknown})
+    current_language = get_current_language(request)
+    if current_language:
+        set_current_language_for_person(person, current_language)    
+        response = set_language_cookie(response, current_language)     
+    else:
+        logger.debug('no current language')
+    return response
 
 def set_language(request):
+    logger.debug('SET LANGAUGE')
+
+    url = '/'+'/'.join(request.META['HTTP_REFERER'].split('/')[3:])
+    match = resolve(url)
+    logger.debug('MATCH: {0}'.format(match))
+    if match:
+        url = '{0}:{1}'.format(match.namespace, match.url_name)
+    else:
+        url = 'people:choose_language'
 
     if request.method=='POST':
+
         if request.POST.get('language','') != '':
             user_language = request.POST.get('language','')
             person = get_or_create_person_from_user(request.user)
@@ -131,21 +170,14 @@ def set_language(request):
             translation.activate(user_language)
             request.session[translation.LANGUAGE_SESSION_KEY] = user_language
 
-            url = reverse(request.POST.get('next','people:choose_language'))
-
-            response =  redirect(url) #render(request,  'people/set_language.html')
-                
+            response =  redirect(reverse(url)) #render(request,  'people/set_language.html')
             response = set_language_cookie(response, user_language)
-
+            logger.debug('RESPONSE: {0}'.format(response))
             return response
 
     else:
-        # if request.GET.get('next'):
-        #     return HttpResponseRedirect( reverse(request.GET.get('next')) )
-        url = reverse('people/profile/')
-        return redirect()
+        return redirect(reverse(url))
 
-    # return render(request, 'people/choose_language.html')
 
 def create_demographics(request):
     if request.method == "POST":

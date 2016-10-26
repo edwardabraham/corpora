@@ -81,3 +81,13 @@ def deactivate_other_known_languages_when_known_language_activated(sender, insta
         for kl in known_languages:
             kl.active = False
             kl.save()
+
+
+@receiver(models.signals.post_delete, sender=KnownLanguage)
+def change_active_language_when_active_language_deleted(sender, instance, **kwargs):
+    if instance.active:
+        known_language = KnownLanguage.objects.filter(person=instance.person).exclude(pk=instance.pk).first()
+        if known_language:
+            known_language.active=True
+            known_language.save()
+        
