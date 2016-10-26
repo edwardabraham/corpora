@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.utils import translation
 from django.conf import settings
 from django.urls import reverse
@@ -29,16 +29,18 @@ def profile(request):
     if request.user.is_authenticated():
         person = Person.objects.get(user=request.user)
         known_languages = KnownLanguage.objects.filter(person=person)
+        unknown_languages = get_unknown_languages(person)
+
         if not current_language:
             if len(known_languages)==0:
                 url = reverse('people:choose_language') + '?next=people:profile'
                 return redirect(url)
-            elif len(known_languages)==1:
+            elif len(known_languages)>=1:
                 set_current_language_for_person(person, known_languages[0].language)
                 current_language = known_languages[0].language
             else:
-
-                pass
+                logger.error('PROFILE VIEW: We need to handle this situation - NO CURRENT LANGUAGE but len know languages is YUGE')
+                raise Http404("Something went wrong. We're working on this...")
 
 
 
