@@ -34,12 +34,29 @@ a:visited, a:active, a:hover {
 	width: 100%;
 }
 
-.button:hover {
+.btn, .btn:active {
+	background-color: $dark;
+	color: $lighter;
+	outline: none;
+	border-color: $dark;
+	box-shadow: 0 0 2px rgba(0,0,0,0.15);
+	transition: all 0.1s ease-in-out;
+}
+
+.btn-group .btn {
+	box-shadow: none;
+}
+
+.button:hover, .btn:hover, .btn:hover:active {
+	background-color: $dark;
+	color: $lighter;
+	border-color: $dark;
 	text-decoration: none;
 	transform: scale(1.05, 1.05);
 	box-shadow: 0 0 10px rgba(0,0,0,0.5);
 	outline: none;
 }
+
 
 // Special text
 .sub-header-text {
@@ -55,7 +72,6 @@ a:visited, a:active, a:hover {
 	from { background-color: $lighter; color: $darker }
 	to { background-color: none; color: $lighter }
 }
-
 
 
 // Input forms
