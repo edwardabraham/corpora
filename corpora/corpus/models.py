@@ -25,6 +25,7 @@ class Recording(models.Model):
     class Meta:
         verbose_name = 'Recording'
         verbose_name_plural = 'Recordings'
+        unique_together = (("person","sentence"),)
 
     def __unicode__(self):
         return self.sentence.text + " by " + self.person.full_name
