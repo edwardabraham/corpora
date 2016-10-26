@@ -157,7 +157,7 @@ def create_demographics(request):
             demographic.person = person
             demographic.save()
 
-            return redirect('people:profile')
+            return redirect(reverse('people:profile'))
 
     else:
         form = DemographicForm()
