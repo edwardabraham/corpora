@@ -14,6 +14,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.dispatch import receiver
 
+from django.core.exceptions import ObjectDoesNotExist
+
 
 class Tribe(models.Model):
     name = models.CharField(help_text='Name',max_length=200)
@@ -82,12 +84,23 @@ def deactivate_other_known_languages_when_known_language_activated(sender, insta
             kl.active = False
             kl.save()
 
+@receiver(models.signals.post_save, sender=KnownLanguage)
+def ensure_a_language_is_active(sender, instance, **kwargs):
+    try:
+        active_language = KnownLanguage.objects.get(person=instance.person, active=True)
+    except ObjectDoesNotExist:
+        known_language = KnownLanguage.objects.filter(person=instance.person).first()
+        if known_language:
+            known_language.active=True
+            known_language.save()       
 
 @receiver(models.signals.post_delete, sender=KnownLanguage)
 def change_active_language_when_active_language_deleted(sender, instance, **kwargs):
     if instance.active:
-        known_language = KnownLanguage.objects.filter(person=instance.person).exclude(pk=instance.pk).first()
+        known_language = KnownLanguage.objects.filter(person=instance.person).first()
         if known_language:
             known_language.active=True
             known_language.save()
+            
+
         

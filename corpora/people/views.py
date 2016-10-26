@@ -112,10 +112,14 @@ def choose_language(request):
                     for instance in instances:
                         if instance.active:
                             current_language = obj.language
-                if current_language:
+                if not current_language:
+                    current_language = translation.get_language()
+                
+                try:
                     set_current_language_for_person(person, current_language)
+                except:
 
-                    logger.debug(current_language)              
+                    logger.debug("We may be trying to set a language when knownlanguage doens't exist")              
 
                     
                 if next_page:

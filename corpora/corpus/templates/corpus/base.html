@@ -8,18 +8,24 @@
 
 {% block navbuttons %}
 
+
 {% addtoblock "css" %}
     <link rel="stylesheet" href="{% static 'components-font-awesome/css/font-awesome.min.css' %}">
 {% endaddtoblock %}
 
     <div class="btn-group btn-group-sm" role="group">
 
+        <a href="{% url 'people:profile' %}" class="btn btn-default btn-sm "><i class="fa fa-lg fa-fw fa-user"></i><div class=" hidden-xs">{% trans 'Profile' %}</div></a>
+        <a href="{% url 'corpus:record' %}" class="btn btn-default btn-sm "><i class="fa fa-lg fa-fw fa-microphone"></i><div class=" hidden-xs">{% trans 'Record' %}</div></a>
+
+        {% get_current_language request as current_language %}
+        {% get_known_languages request as known_languages %}
+        {% if known_languages %}
         <div class="btn-group">
           <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-fw fa-lg fa-language"></i>
             <div class=" hidden-xs">
-            {% get_current_language request as current_language %}
-            {% get_known_languages request as known_languages %}
+
             {% get_language_info for current_language as lang %}
             {% trans 'Language' %} <span class="caret"></span>
             </div>
@@ -35,6 +41,7 @@
             <li><a href="{% url 'people:choose_language' %}?next=people:profile">Add Language</a></li>
           </ul>
         </div>
+        {% endif %}
 
         {% if request.user.is_authenticated %}
 
@@ -62,12 +69,13 @@
         {% endif %}
     </form>
     <form class="hidden" action="{% url 'people:set_language' %}" method="post" id="language_selector_form">{% csrf_token %}
-        <input name="next" type="hidden" value="people:profile" />
+        
         <input name="language" type="hidden" value="{{current_language}}" />
     </form>
 
 {% addtoblock "js" %}
     <script type="text/javascript" src='{% static 'bootstrap/dist/js/bootstrap.min.js' %}'></script>
 {% endaddtoblock %}
+
 
 {% endblock %}

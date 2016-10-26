@@ -8,11 +8,15 @@
 
 {% block navbuttons %}
 
+
 {% addtoblock "css" %}
     <link rel="stylesheet" href="{% static 'components-font-awesome/css/font-awesome.min.css' %}">
 {% endaddtoblock %}
 
     <div class="btn-group btn-group-sm" role="group">
+
+        <a href="{% url 'people:profile' %}" class="btn btn-default btn-sm "><i class="fa fa-lg fa-fw fa-user"></i><div class=" hidden-xs">{% trans 'Profile' %}</div></a>
+        <a href="{% url 'corpus:record' %}" class="btn btn-default btn-sm "><i class="fa fa-lg fa-fw fa-microphone"></i><div class=" hidden-xs">{% trans 'Record' %}</div></a>
 
         {% get_current_language request as current_language %}
         {% get_known_languages request as known_languages %}
