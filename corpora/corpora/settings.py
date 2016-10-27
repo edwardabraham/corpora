@@ -263,9 +263,10 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
 
     # Additional finders
-    'compressor.finders.CompressorFinder',
-    'sass_processor.finders.CssFinder',
     'djangobower.finders.BowerFinder',
+    'sass_processor.finders.CssFinder',
+    'compressor.finders.CompressorFinder',
+
 )
 
 CACHES = {
