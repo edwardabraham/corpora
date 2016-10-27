@@ -17,17 +17,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: corpora/settings.py:230
-msgid "Maori"
-msgstr "Māori"
+#: corpus/templates/corpus/base.html:18
+msgid "Profile"
+msgstr ""
 
-#: corpora/settings.py:231
-msgid "New Zealand English"
-msgstr "Te Reo Pākeha mō Aoteroa"
+#: corpus/templates/corpus/base.html:19
+msgid "Record"
+msgstr ""
 
-#: corpora/urls.py:37
-msgid "^people/"
-msgstr "^tangata/"
+#: corpus/templates/corpus/base.html:30
+msgid "Language"
+msgstr ""
 
-#~ msgid "English"
-#~ msgstr "Te Reo Pākeha"
+#: corpus/templates/corpus/base.html:51
+msgid "Edit Info"
+msgstr ""
+
+#: corpus/templates/corpus/base.html:55
+msgid "Admin"
+msgstr ""
+
+#: corpus/templates/corpus/base.html:60
+msgid "Log Out"
+msgstr ""
