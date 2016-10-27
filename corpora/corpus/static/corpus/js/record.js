@@ -2,6 +2,14 @@ var audio = document.getElementById('play-audio');
 
 var audioBlob, fileName;
 
+$(document).ready(function() {
+	if ( sessionStorage.getItem('reload') == "true") {
+		sessionStorage.setItem('reload', "false");
+		$("#status-message h2").text("Thank you for submitting a recording! Here's another sentence for you:");
+		$("#status-message").show();
+	}
+});
+
 // Check if recorderjs supported
 if (!Recorder.isRecordingSupported()) {
 	console.log("Recorder not supported");
@@ -91,11 +99,21 @@ if (!Recorder.isRecordingSupported()) {
 			url: '/record/',
 			data: fd,
 			processData: false,
-			contentType: false
-		}).done(function(data) {
-			console.log("Recording data submitted and saved");
-			console.log(data);
+			contentType: false,
+			success: function(data) {
+				// Reload the page for a new sentence if recording successfully saved;
+				// Session stores a reload value to display a thank you message 
+				console.log("Recording data successfully submitted and saved");
+				sessionStorage.setItem('reload', "true");
+				location.reload();
+			},
+			error: function(xhr, ajaxOptions, thrownError) {
+				// Display an error message if views return saving error
+				$("#status-message h2").text("Sorry, there was an error!");
+				$("#status-message").show();
+			}
 		});
+
 	});
 
 	// Initialize audio stream (and ask the user if recording allowed?)
