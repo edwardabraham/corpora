@@ -1,11 +1,18 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render, redirect
 from django.template.context import RequestContext
 from django.forms import modelform_factory
+from django.http import HttpResponse
+from django.core.exceptions import ValidationError
+import json
 
-from corpus.forms import RecordingForm
 from corpus.models import Recording, Sentence
 from people.models import Person
+from .helpers import get_next_sentence
+from people.helpers import get_or_create_person_from_user
 
+import logging
+logger = logging.getLogger('corpora')
 
 def submit_recording(request):
 	return render(request, 'corpus/submit_recording.html')
@@ -15,31 +22,49 @@ def failed_submit(request):
 
 def record(request):
 	# Get the person object from the user
-	person = Person.objects.get(user=request.user)
-	
-	# Temporary static sentence object
-	sentence = Sentence.objects.get(pk=1)
-	# person = Person.objects.get(pk=1)
+	person = get_or_create_person_from_user(request.user)
+
+	if request.method == 'GET':
+		if request.GET.get('sentence',None):
+			sentence = Sentence.objects.get(pk=request.GET.get('sentence'))
+		else:
+			sentence = get_next_sentence(request)
+			if sentence == None:
+				return redirect('people:profile')
 
 	# Generate a form model from the Recording model
 	RecordingFormAJAX = modelform_factory(Recording, fields='__all__')
 
 	# If page receives POST request, save the submitted audio data as a recording model
-	if request.method == 'POST':
+	if request.method == 'POST' and request.is_ajax():
 
 		# Create a form from the Recording Form model
 		form = RecordingFormAJAX(request.POST, request.FILES)
 
-		# TODO: Fix redirects
-		# If the form is valid, save the new model and send back a redirect to success page
+		# If the form is valid, save the new model and send back an OK HTTP Response
 		if form.is_valid():
 			recording = form.save()
 			recording.save()
-			return redirect('corpus:submit_recording')
+			return HttpResponse(
+				json.dumps({
+					'success': True,
+					'message': "Thank you for submitting a recording! Here's another sentence for you to record."
+				}), 
+				content_type='application/json',
+			)
 
-		# If the form is not valid, redirect to a failure page
+		# If the form is not valid, sent a 400 HTTP Response
 		else:
-			return redirect('corpus:failed_submit')
+			# errors = form.errors			
+			response = HttpResponse(
+				json.dumps({
+						'err': "Sorry, your recording did not save."
+					}),
+				content_type='application/json'
+			)
+			response.status_code = 400
+
+			return response
 		
 	# Load up the page normally with request and object context
 	context = {'request': request,

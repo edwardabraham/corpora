@@ -1,20 +1,167 @@
-{% extends 'corpora/base.html' %}
+{% extends 'people/base.html' %}
+{% load static %}
+{% load sekizai_tags %}
+{% load compress %}
+{% load sass_tags %}
 {% load i18n %}
-{% block content %}
 
-<form action="{% url 'people:set_language' %}" method="post">{% csrf_token %}
-    <input name="next" type="hidden" value="/people/1" />
-    <select name="language">
-        {% get_current_language as LANGUAGE_CODE %}
-        {% get_available_languages as LANGUAGES %}
-        {% get_language_info_list for LANGUAGES as languages %}
-        {% for language in languages %}
-            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected="selected"{% endif %}>
-                {{ language.name_translated }} ({{ language.code }})
-            </option>
-        {% endfor %}
-    </select>
-    <input type="submit" value="Go" />
+
+
+{% block content %}
+<div class="container">
+
+<form method="post" action="" id="choose_language_form">
+{% csrf_token %}
+{{ formset.management_form }}
+    <div class="row">
+    {% for form in formset %}
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 formset-form {% if known_languages < forloop.counter and not form.errors %}add-inline-item hidden{% endif %}">
+
+
+    {% if known_languages == 0 %}
+    <div class="alert alert-info  alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span></button>
+     You must add at least one language to continue.
+    </div>
+    {% elif forloop.counter > 1 %}
+    
+
+    {% endif %}
+
+    <div class="formset-form-wrapper">
+
+
+
+
+
+
+    {% if  form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+        {{form.non_field_errors}}
+    </div>
+    {% endif %}
+        
+    {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+    {% endfor %}
+
+    <div class="row">
+    {% for field in form.visible_fields %}
+
+
+
+
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+            {% if field.name == 'DELETE' %}
+                {% if known_languages >= forloop.parentloop.counter %}
+                <div style="display: none;">{{ field }}</div>
+                <button type="submit" class="btn btn-default btn-sm" onclick="$('form[id=choose_language_form] input[id={{field.id_for_label}}]').attr('checked', true);" >
+                    <i class="fa fa-fw fa-lg fa-trash"></i>
+                    <div class=" hidden-xs">{% trans 'Delete' %}</div>
+                </button>
+                {% endif %}
+
+            
+            {% elif field.name == 'language' %}
+
+                {% if known_languages >= forloop.parentloop.counter and field.value %}
+                {% get_language_info for field.value as lang %}
+                <div>{{ field.label_tag }}</div>
+                <div>{{ lang.name_translated }}</div>
+                <div style="display: none;">
+                    <select id="{{field.id_for_label}}" name="{{field.html_name}}">
+                        <option value="{{field.value}}" selected="selected"></option>
+                    </select>
+                </div>
+                {% else %}
+
+                <div>{{ field.label_tag }} </div>
+                <div>
+                    <select id="{{field.id_for_label}}" name="{{field.html_name}}">                
+                        <option value=""{% if field.value == lang_code %} selected{% endif %}>---------</option>
+                        {% for lang_code in unknown_languages %}
+                        {% get_language_info for lang_code as lang %}
+                        <option value="{{ lang_code }}"{% if field.value == lang_code %} selected{% endif %}>{{ lang.name_translated }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            {% endif %}
+
+
+            {% else %}
+
+                {{ field.label_tag }} {{ field }}
+
+            {% endif %}
+
+            {% if field.errors %}<div class="alert alert-danger" role="alert">{{ field.errors }}</div>{% endif %}
+        
+        </div>
+
+    {% endfor %}
+    </div>
+    
+
+    </div></div>
+    {% endfor %}
+    </div>
+
+    <div class="row"><div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 pull-right">
+    <input type="submit" value="Save" class="button submit-button">
+    </div></div>
+
+
+
 </form>
 
+
+{% addtoblock "css" %}
+    <link rel="stylesheet" href="{% static 'bower_components/components-font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% sass_src 'corpora/css/inline_forms.scss' %}">
+{% endaddtoblock %}
+
+{% addtoblock "js" %}
+    <script type="text/javascript" src="{% static 'corpora/js/inline_forms.js' %}"></script>
+    <script type="text/javascript">
+        
+$(document).ready( function(){
+
+
+
+
+
+$('.add-inline-item').each(function(){
+    var self = this
+
+    var card_wrapper =  $(self).find('.formset-form-wrapper')[0]
+    var wrapper = $("<div class='inline-form-wrapper hidden' id=''></div>")
+    var icon = $("<div class='add-inline-item-icon'><p>Add a language.</p> <i class='fa fa-fw fa-lg fa-plus'></i></div>")
+
+
+    $(card_wrapper).children().appendTo(wrapper);
+    $(wrapper).appendTo(card_wrapper);
+    $(icon).appendTo(card_wrapper);
+    $(self).removeClass('hidden')
+
+    
+    $(icon).on('click touch', function(){
+        $(wrapper).children().appendTo(card_wrapper);
+        $(wrapper).remove();
+        $(icon).remove();
+        $(self).removeClass('add-inline-item')
+    })
+
+});
+
+
+
+});
+
+
+    </script>
+{% endaddtoblock %}
+
+</div>
 {% endblock %}

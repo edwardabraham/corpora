@@ -32,6 +32,12 @@ $sm-fg-circle-inset: 12px;
 
 .unclicked-circle {
 	box-shadow: 0 0 10px black;
+	transition: all 0.1s ease-in-out;
+}
+
+.unclicked-circle:hover {
+	transform: scale(1.05, 1.05);
+	box-shadow: 0 0 15px black;
 }
 
 .clicked-circle {
@@ -53,6 +59,35 @@ $sm-fg-circle-inset: 12px;
 	text-align: center;
 }
 
+.stop-square {
+	background-color: $darker;
+	width: 50%;
+	height: 50%;
+
+	display: none;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.play-triangle {
+	width: 0;
+	height: 0;
+	margin-top: 50%;
+	margin-left: 50%;
+	transform: translate(-35%, -50%);
+
+	border-top: $lg-bg-circle-size/4 solid transparent;
+	border-left: $lg-bg-circle-size/3 solid $darker;
+	border-bottom: $lg-bg-circle-size/4 solid transparent;
+}
+
+#play-button {
+	display: none;
+}
+
+
 // Small device css settings
 @media(max-width: 768px) {
 	.background-circle {
@@ -70,70 +105,10 @@ $sm-fg-circle-inset: 12px;
 	.circle-text {
 		font-size: 30px;
 	}
-}
 
-
-// Smooth transitions between content
-.pt-perspective {
-	position: relative;
-	perspective: 1200px;
-	transform-style: preserve-3d;
-}
-
-.pt-page {
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	top: 0;
-	left: 0;
-	visibility: hidden;
-	backface-visibility: hidden;
-	transform: translate3d(0,0,0);
-}
-
-.pt-page-current {
-	visibility: visible;
-}
-
-.pt-page-fadeOut {
-	-webkit-transition: opacity .6s ease-in-out;
-	-moz-transition: opacity .6s ease-in-out;
-	-ms-transition: opacity .6s ease-in-out;
-	-o-transition: opacity .6s ease-in-out;
-	opacity: 0;
-}
-
-.pt-page-moveToLeft {
-	animation: moveToLeft .6s ease both;
-}
-
-.pt-page-moveFromLeft {
-	animation: moveFromLeft .6s ease both;
-}
-
-.pt-page-moveToRight {
-	animation: moveToRight .6s ease both;
-}
-
-.pt-page-moveFromRight {
-	animation: moveFromRight .6s ease both;
-}
-
-
-@keyframes moveToLeft {
-	from { }
-	to { -webkit-transform: translateX(-100%); transform: translateX(-100%); }
-}
-
-@keyframes moveFromLeft {
-	from { -webkit-transform: translateX(-100%); transform: translateX(-100%); }
-}
-
-@keyframes moveToRight { 
-	from { }
-	to { -webkit-transform: translateX(100%); transform: translateX(100%); }
-}
-
-@keyframes moveFromRight {
-	from { -webkit-transform: translateX(100%); transform: translateX(100%); }
+	.play-triangle {
+		border-top: $sm-bg-circle-size/4 solid transparent;
+		border-left: $sm-bg-circle-size/3 solid $darker;
+		border-bottom: $sm-bg-circle-size/4 solid transparent;
+	}
 }

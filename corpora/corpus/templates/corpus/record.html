@@ -1,4 +1,4 @@
-{% extends 'corpora/base.html' %}
+{% extends 'corpus/base.html' %}
 
 {% load static %}
 {% load sekizai_tags %}
@@ -12,68 +12,61 @@
 	{% endaddtoblock %}
 
 	<div class="container">
-		<div class="pt-perspective">
-			<div class="row pt-page pt-page-current" id="recorder-container">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-					<h2>Record this sentence in Te Reo: </h2>
-					{{sentence.text}}</br>
-					<h3>When you're ready, press the REC button to record the sentence. When you're done, press the button again to stop the recording.
-					When you have a recording you are satisfied with, press "Next."
-					</h3>
+		<div class="row" id="recorder-container">
+			<div class="col-xs-12 col-sm-12 col-md-1 col-lg-1"></div>
+			<div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+				<div id="status-message" class="error-message" style="display: none;"><h2></h2></div>
 
-					<div class="circle-button-container">
-						<div class="circle background-circle">
-							<a href="javascript:void(0)" id="record-button">
-								<div class="circle foreground-circle unclicked-circle record">
-									<div class="circle-text">REC</div>
-								</div>
-							</a>
-						</div>
+				<h2>Record this sentence in Te Reo: </h2>
+				{{sentence.text}}</br>
+				<h3>When you're ready, press the REC button to record the sentence. When you're done, press the button again to stop the recording.
+				When you have a recording you are satisfied with, press "Next."
+				</h3>
+
+				<div class="circle-button-container">
+					<div class="circle background-circle">
+						<a href="javascript:void(0)" id="record-button">
+							<div class="circle foreground-circle unclicked-circle record">
+								<div class="circle-text record">REC</div>
+								<div class="stop-square"></div>
+							</div>
+						</a>
+
+						<a href="javascript:void(0)" id="play-button">
+							<div class="circle foreground-circle unclicked-circle play">
+								<div class="play-triangle"></div>
+							</div>
+						</a>
 					</div>
+				</div>
 
-					<a href="javascript:void(0)" id="next">
+
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="redo" style="display: none;" >
+					<a href="javascript:void(0)">
 						<div class="button">
-							Next
+							Reset
 						</div>
 					</a>
-
 				</div>
-			</div>
 
-			<div class="row pt-page" id="player-container">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-					<h2>Playback your recording of this sentence:</h2>
-					{{sentence.text}}</br>
-					<h3>Press the play button to play the recording back. When you're satisfied with it, press "Save." If you would like to record it again, press "Back."</h3>
-
-					<div class="circle-button-container">
-						<div class="circle background-circle">
-							<a href="javascript:void(0)" id="play-button">
-								<div class="circle foreground-circle unclicked-circle play">
-									<div class="circle-text">PLAY</div>
-								</div>
-							</a>
+				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6" id="save" style="display: none;">
+					<a href="javascript:void(0)">
+						<div class="button">
+							Save
 						</div>
-					</div>
-
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-						<a href="javascript:void(0)" id="back">
-							<div class="button">
-								Back
-							</div>
-						</a>
-					</div>
-
-					<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-						<a href="javascript:void(0)" id="save">
-							<div class="button">
-								Save
-							</div>
-						</a>
-					</div>
-
+					</a>
 				</div>
+
+				{% comment %}					
+				<a href="javascript:void(0)" id="next" style="display: none;">
+					<div class="button">
+						Next
+					</div>
+				</a>
+				{% endcomment %}
+				
 			</div>
+			<div class="col-xs-12 col-sm-12 col-md-1 col-lg-1"></div>
 		</div>
 	</div>
 

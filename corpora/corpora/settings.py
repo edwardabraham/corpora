@@ -128,6 +128,44 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
     
 )
+LOGIN_REDIRECT_URL = 'people:profile' # is there a more fool proof option?
+ACCOUNT_ADAPTER = "people.adapter.PersonAccountAdapter"
+SOCIALACCOUNT_ADAPTER = "people.adapter.PersonSocialAccountAdapter"
+
+SOCIALACCOUNT_PROVIDERS = \
+    {'facebook':
+       {'METHOD': 'oauth2',
+        'SCOPE': ['email', 'public_profile', 'user_friends'], # Will require app approval for user_about_me access.
+        'FIELDS': [ # see https://developers.facebook.com/docs/graph-api/reference/user/
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'locale',
+            'timezone',
+            'gender',
+            'languages',
+            'birthday'],
+        #'LOCALE_FUNC': 'path.to.callable',
+        'VERSION': 'v2.4'},
+    'google':{
+        'SCOPE': ['profile', 'email', 'https://www.googleapis.com/auth/plus.login'], # https://developers.google.com/identity/protocols/OAuth2
+        'FIELDS': [ 
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'locale',
+            'timezone',
+            'gender',
+            'languages',
+            'birthday'],
+    }
+
+    }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -188,9 +226,9 @@ django.conf.locale.LANG_INFO = LANG_INFO
 
 from django.utils.translation import ugettext_lazy as _
 LANGUAGES = (
-    ('en',    _('English')),
+    # ('en',    _('English')),
+    ('mi',    _('Maori')),
     ('en_NZ', _('New Zealand English')),
-    ('mi',    _('Maori'))
 )
 # LANGUAGE_COOKIE_NAME='corpora-language'
 
@@ -213,7 +251,8 @@ BOWER_INSTALLED_APPS = {
     'jquery',
     'jquery-ui',
     'bootstrap',
-    'opus-recorderjs'
+    'opus-recorderjs',
+    'components-font-awesome',
 }
 
 # STATICFILES_DIRS = (
