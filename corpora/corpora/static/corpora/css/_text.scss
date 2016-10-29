@@ -1,8 +1,8 @@
 @import '_colors';
-@import 'https://fonts.googleapis.com/css?family=Comfortaa:400,700|Poiret+One&subset=latin-ext';
+@import url('https://fonts.googleapis.com/css?family=Comfortaa:300,400,700|Poiret+One&amp;subset=latin-ext');
 
-$header-font: 'Poiret One', cursive;
-$body-font: 'Comfortaa', cursive;
+$header-font: 'Poiret One', sans-serif;
+$body-font: 'Comfortaa', sans-serif;
 
 
 /* These should be moved to main.scss */
