@@ -1,13 +1,17 @@
-@import 'colors';
-@import 'https://fonts.googleapis.com/css?family=Comfortaa:400,700|Poiret+One&subset=latin-ext';
+@import '_colors';
+@import url('https://fonts.googleapis.com/css?family=Comfortaa:300,400,700|Poiret+One&amp;subset=latin-ext'); // This may not work on all browsers.
 
-$header-font: 'Poiret One', cursive;
-$body-font: 'Comfortaa', cursive;
+$header-font: 'Poiret One', sans-serif;
+$body-font: 'Comfortaa', sans-serif;
+
+
+/* These should be moved to main.scss */
 
 h1 {
 	color: $lighter;
 	font-family: $header-font;
 	font-size: 48px;
+	font-weight: 400;
 	margin-left: -2px;
 	text-decoration: none;
 }
@@ -15,6 +19,7 @@ h1 {
 h2 {
 	color: $lighter;
 	font-family: $header-font;
+	font-weight: 400;
 	font-size: 24px;
 	margin-left: -1px;
 	text-decoration: none;
@@ -23,6 +28,7 @@ h2 {
 h3 {
 	color: $light;
 	font-family: $body-font;
+	font-weight: 400;
 	font-size: 16px;
 	margin: 10px 0px 20px 0px;
 	text-decoration: none;
@@ -31,6 +37,7 @@ h3 {
 body {
 	color: $default;
 	font-family: $body-font;
+	font-weight: 400;
 	font-size: 20px;
 	text-decoration: none;
 }

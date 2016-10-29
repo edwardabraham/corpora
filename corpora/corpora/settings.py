@@ -26,8 +26,7 @@ SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = eval(os.environ['DJANGO_ISNOT_PRODUCTION'])
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = os.environ['ALLOWED_HOSTS'].split(' ')
 
 # Application definition
 
@@ -120,7 +119,7 @@ DATABASES = {
 
 # All auth
 AUTHENTICATION_BACKENDS = (
-    
+
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
 
@@ -131,7 +130,6 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_REDIRECT_URL = 'people:profile' # is there a more fool proof option?
 ACCOUNT_ADAPTER = "people.adapter.PersonAccountAdapter"
 SOCIALACCOUNT_ADAPTER = "people.adapter.PersonSocialAccountAdapter"
-
 SOCIALACCOUNT_PROVIDERS = \
     {'facebook':
        {'METHOD': 'oauth2',
@@ -163,8 +161,22 @@ SOCIALACCOUNT_PROVIDERS = \
             'languages',
             'birthday'],
     }
-
     }
+ACCOUNT_AUTHENTICATION_METHOD="username_email"
+ACCOUNT_EMAIL_REQUIRED=True
+
+# These email settings should change for a production environment. Right now we're using G Suite.
+# EMAIL_HOST=os.environ['EMAIL_HOST']
+# EMAIL_HOST_USER=os.environ['EMAIL_HOST_USER']
+# EMAIL_HOST_PASSWORD=os.environ['EMAIL_HOST_PASSWORD']
+# EMAIL_USE_SSL=True # move to deploy
+# EMAIL_PORT=465 # Move to deploy
+
+# Email
+EMAIL_BACKEND = 'django_ses.SESBackend' # Use AWS Simple Email Service
+AWS_SES_REGION_NAME = 'us-west-1'
+AWS_SES_REGION_ENDPOINT = 'email.us-west-2.amazonaws.com'
+DEFAULT_FROM_EMAIL = '"Te Hiku Support" <support@tehiku.nz>'
 
 
 # Password validation
@@ -264,9 +276,10 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
 
     # Additional finders
-    'compressor.finders.CompressorFinder',
-    'sass_processor.finders.CssFinder',
     'djangobower.finders.BowerFinder',
+    'sass_processor.finders.CssFinder',
+    'compressor.finders.CompressorFinder',
+
 )
 
 CACHES = {
