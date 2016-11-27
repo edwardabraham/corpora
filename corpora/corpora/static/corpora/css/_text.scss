@@ -1,5 +1,5 @@
 @import '_colors';
-@import url('https://fonts.googleapis.com/css?family=Comfortaa:300,400,700|Poiret+One&amp;subset=latin-ext'); // This may not work on all browsers.
+@import 'https://fonts.googleapis.com/css?family=Comfortaa:300,400,700|Poiret+One&amp;subset=latin-ext'; // This may not work on all browsers and doesn't appear to work properly with compressor.
 
 $header-font: 'Poiret One', sans-serif;
 $body-font: 'Comfortaa', sans-serif;
