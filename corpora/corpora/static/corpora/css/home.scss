@@ -6,7 +6,9 @@
 .jumbotron div[class*='col']{
 	text-align: center;
 }
-
+.sub-header-text{
+	color: $darker;
+}
 .content{
 	background-color: $lightest;
 	color: $dark;
@@ -35,7 +37,7 @@ div[class*='-card'] > p:first-child{
 
 div[class*='-card'] > p.dropcase:first-child:first-letter { 
 	float: left; 
-	color: $darkest; 
+	color: $darker; 
 	font-size: 90px; 
 	font-weight: 900;
 	line-height: 90px; 
