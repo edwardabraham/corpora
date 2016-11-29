@@ -28,7 +28,7 @@ self['onmessage'] = function( e ){
 };
 
 var WavePCM = function( config ){
-  this.sampleRate = config['sampleRate'] || 48000;
+  this.sampleRate = config['sampleRate'] || 44100;
   this.bitDepth = config['bitDepth'] || 16;
   this.recordedBuffers = [];
   this.bytesPerSample = this.bitDepth / 8;

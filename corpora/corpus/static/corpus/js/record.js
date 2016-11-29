@@ -26,9 +26,16 @@ if (!Recorder.isRecordingSupported()) {
 	// Using recorderjs: https://github.com/chris-rudmin/Recorderjs
 	// encoderPath option: directs to correct encoderWorker location
 	// leaveStreamOpen option: allows for recording multiple times wihtout reinitializing audio stream
+
+	// create an audio context then close it so we can detect microphpne sample rate
+	var dummy_ac = new AudioContext();
+	var sample_rate = dummy_ac.sampleRate;
+	dummy_ac.close();
+
 	var recorder = new Recorder({
 		encoderPath: '/static/corpora/js/encodeWaveWorker.js',
-		leaveStreamOpen: true
+		leaveStreamOpen: true,
+		encoderSampleRate: sample_rate // THIS NEEDS TO BE THE SAMPLE RATE OF THE MICROPHONE
 	});
 
 	var recording = false;
