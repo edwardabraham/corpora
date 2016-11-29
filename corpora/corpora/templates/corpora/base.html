@@ -8,53 +8,48 @@
 <html lang="en">
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="viewport" content="width=device-width" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width" />
 
-	<title>Corpora</title>
+  <title>Corpora</title>
 
-	<link href="https://fonts.googleapis.com/css?family=Comfortaa:300,400,700|Poiret+One&amp;subset=latin-ext" rel="stylesheet">
-	{# Uses sekizai to load all css at start of page & compressor to minify it #}
-	{% render_block "css" postprocessor "compressor.contrib.sekizai.compress" %}
+  <link href="https://fonts.googleapis.com/css?family=Comfortaa:300,400,700|Poiret+One&amp;subset=latin-ext" rel="stylesheet">
+  {# Uses sekizai to load all css at start of page & compressor to minify it #}
+  {% render_block "css" postprocessor "compressor.contrib.sekizai.compress" %}
 
-	{# CSS files to load & combine #}
-	{% addtoblock "css" %}
-		<link href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
-		<link href="{% sass_src 'corpora/css/main.scss' %}" rel="stylesheet" type="text/css" />
-		<link href="{% sass_src 'corpora/css/nav.scss' %}" rel="stylesheet" type="text/css" />
-	{% endaddtoblock %}
+  {# CSS files to load & combine #}
+  {% addtoblock "css" %}
+    <link href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% sass_src 'corpora/css/main.scss' %}" rel="stylesheet" type="text/css" />
+    <link href="{% sass_src 'corpora/css/nav.scss' %}" rel="stylesheet" type="text/css" />
+  {% endaddtoblock %}
 
 
-	{% addtoblock "js" %}
-		<script type="text/javascript" src='{% static 'jquery/dist/jquery.min.js' %}'></script>
-		<script type="text/javascript" src='{% static 'jquery-ui/jquery-ui.min.js' %}'></script>
-		<script type="text/javascript" src='{% static 'corpora/js/transitions.js' %}'></script>
-	{% endaddtoblock %}
-	
+  {% addtoblock "js" %}
+    <script type="text/javascript" src='{% static 'jquery/dist/jquery.min.js' %}'></script>
+    <script type="text/javascript" src='{% static 'jquery-ui/jquery-ui.min.js' %}'></script>
+    <script type="text/javascript" src='{% static 'corpora/js/transitions.js' %}'></script>
+  {% endaddtoblock %}
+  
 </head>
 
 <body>
-	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 banner">
-		<div class="row">
-			<div class="col-lg-6 col-md-7 col-sm-7 col-xs-6" >
-				<h1>Kia Ora Siri</h1>
-				<h3 class="sub-header-text">Help computers learn to speak Te Reo.</h3>
-			</div>
 
-			<div class="col-lg-6 col-md-5 col-sm-5 col-xs-6 navbuttons">
-				{% block navbuttons %}
-		    	{% endblock %}
-		    </div>
-	    </div>
-	</div>
+  <nav class="navbar navbar-static-top">
+    <div class="container">
+      <div class="nav">
+        {% block navbuttons %}{% endblock %}
+      </div>
+    </div>
+  </nav>
 
-	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 content">
-		{% block content %}
-		{% endblock%}
-	</div>
+  <div class="content">
+    {% block content %}
+    {% endblock%}
+  </div>
 
-	{# Uses sekizai to load all js at end of page #}
-	{% render_block "js" %}
+  {# Uses sekizai to load all js at end of page #}
+  {% render_block "js" %}
 </body>
 
 </html>

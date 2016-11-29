@@ -15,28 +15,6 @@
 
   {% get_providers as socialaccount_providers %}
 
-  {% if socialaccount_providers %}
-  <p class="p-text-block">{% blocktrans %}Please sign in with one
-  of your existing third party accounts: {% endblocktrans %}</p>
-
-  <div class="socialaccount_ballot">
-
-    <ul class="socialaccount_providers">
-      {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-    </ul>
-
-  </div>
-
-  <p class="p-text-block">{% blocktrans with site.name as site_name %}Or, <a href="{{ signup_url }}">sign up</a>
-  for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
-
-  {% include "socialaccount/snippets/login_extra.html" %}
-
-  {% else %}
-  <p>{% blocktrans %}If you have not created an account yet, then please
-  <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
-  {% endif %}
-
   <form class="login" method="POST" action="{% url 'account_login' %}" style="text-align: center;">
     {% csrf_token %}
 
@@ -50,10 +28,33 @@
       <h3 style="opacity: 0.5">{% trans "Forgot Password?" %}</h3>
     </a>
     
-    <button class="primaryAction button" type="submit">
+    <button class="primaryAction button" type="submit" style="max-width: 200px;">
         {% trans "Sign In" %}
     </button>
 
   </form>
+
+
+
+  {% if socialaccount_providers %}
+  <p class="p-text-block">{% blocktrans %}You can also sign in with: {% endblocktrans %}</p>
+
+  <div class="socialaccount_ballot">
+
+    <ul class="socialaccount_providers">
+      {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+    </ul>
+
+  </div>
+
+  <p class="p-text-block">{% blocktrans with site.name as site_name %}Don't have an account?<br><a href="{{ signup_url }}">Sign Up</a>
+  {% endblocktrans %}</p>
+
+  {% include "socialaccount/snippets/login_extra.html" %}
+
+  {% else %}
+  <p>{% blocktrans %}If you have not created an account yet, then please
+  <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+  {% endif %}
 
 {% endblock account_content %}

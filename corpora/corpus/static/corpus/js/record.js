@@ -12,6 +12,12 @@ $(document).ready(function() {
 
 // Check if recorderjs supported
 if (!Recorder.isRecordingSupported()) {
+	$('#recorder-container').children().remove();
+	var info = $('<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: center;">\
+		<h2>Browser Recording Not Supported</h2>\
+		<p>We\'re working on alternatives - and hoping browsers support WebRTC moving forward.</p>\
+		</div>');
+	$('#recorder-container').append(info);
 	console.log("Recorder not supported");
 } else {
 	console.log("Recorder supported");

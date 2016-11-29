@@ -23,10 +23,10 @@ logger = logging.getLogger('corpora')
 
 
 def profile(request):
-    sentence = get_next_sentence(request)
-    current_language = get_current_language(request)
     
     if request.user.is_authenticated():
+        sentence = get_next_sentence(request)
+        current_language = get_current_language(request)
         person = Person.objects.get(user=request.user)
         known_languages = KnownLanguage.objects.filter(person=person)
         unknown_languages = get_unknown_languages(person)

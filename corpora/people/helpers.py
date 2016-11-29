@@ -70,10 +70,16 @@ def get_unknown_languages(person):
         try:
             person = Person.objects.get(user=person)
         except:
-            return None        
+            person = None
+    else:
+        person = None
         
-    ''' Returns a list of language codes not known by person '''
-    known_languages = [i.language for i in KnownLanguage.objects.filter(person=person) ]
+    if person is None:
+        known_languages = []
+    else:
+        ''' Returns a list of language codes not known by person '''
+        known_languages = [i.language for i in KnownLanguage.objects.filter(person=person) ]
+
     alter_choices = []
     for i in range(len(settings.LANGUAGES)):
         if settings.LANGUAGES[i][0] not in known_languages:

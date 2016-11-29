@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.template.context import RequestContext
 from django.forms import modelform_factory
 from django.http import HttpResponse
+from django.urls import reverse, resolve
 from django.core.exceptions import ValidationError
 import json
 
@@ -22,6 +23,9 @@ def failed_submit(request):
 
 def record(request):
 	# Get the person object from the user
+
+	if not request.user.is_authenticated(): return redirect(reverse('account_login'))
+
 	person = get_or_create_person_from_user(request.user)
 
 	if request.method == 'GET':

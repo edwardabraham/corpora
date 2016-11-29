@@ -23,6 +23,9 @@ class PersonAccountAdapter(DefaultAccountAdapter):
         # Create a People Object with User Information
         person = get_or_create_person_from_user(user)
 
+    def is_open_for_signup(self, request):
+        return False
+
 
 class PersonSocialAccountAdapter(DefaultSocialAccountAdapter):
 

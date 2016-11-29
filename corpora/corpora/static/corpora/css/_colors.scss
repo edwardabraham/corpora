@@ -1,8 +1,12 @@
-$brand_primary: rgb(220,34,80);
+$brand_primary: hsl(348,80,50);
+
 $brand_light: lighten($brand_primary, 23.6%);
 $brand_lighter: lighten($brand_primary, 38.2%);
+$brand_lightest: lighten($brand_primary, 50%);
+
 $brand_dark: darken($brand_primary, 23.6%);
 $brand_darker: darken($brand_primary, 38.2%);
+$brand_darkest: darken($brand_primary, 50%);
 
 $brand_saturated: saturate($brand_primary, 38.2%);
 $brand_desaturated: desaturate($brand_primary, 38.2%);
@@ -17,12 +21,13 @@ $brand_complement_darker: darken($brand_complement, 38.2%);
 $brand_complement_saturated: saturate($brand_complement, 38.2%);
 $brand_complement_desaturated: desaturate($brand_complement, 38.2%);
 
+$lightest: 	$brand_lightest;
 $lighter: 	$brand_lighter;
-$light: 	$brand_light;
+$light: 	$brand_light;	
 $default: 	$brand_primary;
 $dark: 		$brand_dark;
 $darker: 	$brand_darker;
-
+$darkest: 	$brand_darkest;
 
 
 

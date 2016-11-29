@@ -204,7 +204,7 @@ SITE_ID = 1
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en_NZ'
+LANGUAGE_CODE = 'mi'
 
 TIME_ZONE = 'UTC'
 
@@ -240,7 +240,7 @@ from django.utils.translation import ugettext_lazy as _
 LANGUAGES = (
     # ('en',    _('English')),
     ('mi',    _('Maori')),
-    ('en_NZ', _('New Zealand English')),
+    # ('en_NZ', _('New Zealand English')),
 )
 # LANGUAGE_COOKIE_NAME='corpora-language'
 
@@ -294,6 +294,18 @@ CACHES = {
 # CACHE_MIDDLEWARE_ALIAS 
 # CACHE_MIDDLEWARE_SECONDS
 # CACHE_MIDDLEWARE_KEY_PREFIX
+
+
+# DJANGO-COMPRESSOR SETTINGS
+COMPRESS_PRECOMPILERS = (
+    #('text/coffeescript', 'coffee --compile --stdio'),
+    ('text/less', 'lessc {infile} {outfile}'),
+    ('text/x-sass', 'sass {infile} {outfile}'),
+    ('text/x-scss', 'sass --scss {infile} {outfile}'),
+    #('text/stylus', 'stylus < {infile} > {outfile}'),
+    #('text/foobar', 'path.to.MyPrecompilerFilter'),
+)
+
 
 
 import sys

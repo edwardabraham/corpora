@@ -1,11 +1,67 @@
 @import '_colors';
+@import '_text';
 
-.navbuttons{
-	text-align: right;
-	margin-top: 15px;
+
+
+.navbar{
+	background-color: $brand_primary;
+	height: 50px;
 }
 
-.navbuttons form{
+.navbar .nav > div{
 	display: inline-block;
+	text-align: center;
+	float: right;
 }
 
+.navbar div.brand{
+	font-family: $title-font;
+	float: left;
+}
+
+.navbar .nav a{
+	display: block;
+	color: $lightest;
+	font-size: 12px;
+	margin: 8px 10px 8px 10px;
+	text-decoration: none;
+}
+
+.navbar .nav .brand a{
+	font-size: 24px;
+	line-height: 24px;
+	padding-top: 0px;
+	margin: 13px 15px 13px 0px;
+}
+
+.navbar .nav a:hover{
+	color: $lighter;
+}
+
+.nav .open > a, .nav .open > a:focus{
+	text-decoration: none;
+	background-color: $brand_primary;
+	color: $dark;
+}
+
+.nav .dropdown-menu a{
+	color: $darker;
+}
+
+.nav .dropdown-menu a:hover{
+	background-color: rgba($darkest, 0);
+	color: $light;
+}
+
+@media (max-width: 490px) {
+
+	.navbar .nav a{
+		font-size: 16px;
+		margin: 14px 8px;
+	}
+	
+		.navbar .nav a > div{
+		display: none;
+	}
+
+}
