@@ -118,7 +118,12 @@ if (!Recorder.isRecordingSupported()) {
 				// Session stores a reload value to display a thank you message 
 				console.log("Recording data successfully submitted and saved");
 				sessionStorage.setItem('reload', "true");
-				location.reload();
+				if (window.location.href.search('\\?sentence=')>0){
+					window.history.back();
+				} else {
+					window.location.reload();
+				}
+				
 			},
 			error: function(xhr, ajaxOptions, thrownError) {
 				// Display an error message if views return saving error
