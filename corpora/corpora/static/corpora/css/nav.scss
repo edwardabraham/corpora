@@ -26,6 +26,23 @@
 	margin: 8px 10px 8px 10px;
 	text-decoration: none;
 }
+@media (max-width: 490px) {
+
+	.navbar .nav a{
+		font-size: 16px;
+		margin: 14px 6px;
+	}
+	
+		.navbar .nav a > div{
+		display: none;
+	}
+
+}
+
+
+.navbar .nav div:nth-child(2) a{
+	margin-right: 0px;
+}
 
 .navbar .nav .brand a{
 	font-size: 24px;
@@ -33,6 +50,8 @@
 	padding-top: 0px;
 	margin: 13px 15px 13px 0px;
 }
+
+
 
 .navbar .nav a:hover{
 	color: $lighter;
@@ -53,15 +72,4 @@
 	color: $light;
 }
 
-@media (max-width: 490px) {
 
-	.navbar .nav a{
-		font-size: 16px;
-		margin: 14px 8px;
-	}
-	
-		.navbar .nav a > div{
-		display: none;
-	}
-
-}
